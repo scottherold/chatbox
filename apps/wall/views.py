@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 # Create your views here.
-
+print("Checking my pull request and Forking")
 def index(req):
     pass
 
