@@ -1,0 +1,44 @@
+{% extends './layout.html' %}
+{% block body %}
+    <h1>Hello, {{ user.first_name }}</h1>
+    <h3>{{ poke_count }} {% if poke_count == 1 %} person {% else %} people {% endif %} poked you!</h3>
+    <div>
+        {% for poke in poke_list %}
+        <h5>{{ poke.poke_from.name }} poked you {{ poke.poke_count }} {% if poke.poke_count == 1 %} time! {% else %} times! {% endif %}</h5>
+        {% endfor %}
+    </div>
+    <h4>People you may want to poke:</h4>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                    <th>Email Address</th>
+                    <th>Poke History</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            {% for user in user_list %}
+                <tbody>
+                    <tr>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.user_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.total_pokes }}</td>
+                        <td>
+                            <form action="{% url 'pokes:create' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="poke_user_id" name="poke_user_id" value="{{ user.id }}">
+                                <input type="hidden" id="user_id" name="user_id" value="{{ request.session.user_id }}">
+                                <button type="submit">Poke!</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
