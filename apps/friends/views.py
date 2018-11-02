@@ -7,7 +7,7 @@ from .models import Friend
 #     pass
 
 def create(req):
-    Friend.objects.add_poke(req.POST)
+    Friend.objects.add_friend(req.POST)
     return redirect('users:index')
 
 def update(req, id):
