@@ -1,0 +1,128 @@
+
+
+.backgroundIMG{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* background:fixed; */
+    background-attachment:fixed;
+
+}
+.RegBackgroundIMG{
+    background-size: cover;
+    background-position: center;
+    background-attachment:fixed;
+    background-repeat: no-repeat;
+
+
+}
+
+.jumbotron{
+    height: 500px;
+    padding-bottom: 70px;
+}
+nav{
+    border-bottom: 1px solid white;
+    
+}
+
+        
+.header{
+    display: inline-block;
+    width: 540px;
+    vertical-align: top;
+}
+.formss{
+    display: inline-block;
+}
+
+.regForm{
+    width: 80%;
+}
+
+@media screen and (max-width: 1190px) {
+
+    .header{
+        width: 45%;
+    }
+  
+
+}
+
+
+@media screen and (max-width: 600px) {
+    body {
+        background-color: rgb(34, 34, 34);
+    }
+    /* Home Page */
+   .logIn{
+      max-width: 35%;
+      flex: 0 0 35%
+   }
+   .brand{
+       max-width: 65%;
+       flex: 0 0 65%
+   }
+   .navbar-brand{
+       font-size: 1rem ;
+   }
+
+    .backgroundIMG{
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: initial;
+    }
+    .homeText{
+        font-size: 0.8rem;
+    }
+    .display-3{
+        font-size: 2rem;
+    }
+
+    footer{
+        color: rgb(231, 231, 231);
+        font-size: 0.6rem;
+    }
+    /* register */
+    .regFooter{
+        font-size: 1rem;
+    }
+    /* login Page */
+    .header{
+        width: 90%;
+        border-bottom: 1px solid black;
+    }
+    .formss{
+        display: block;
+        margin-left: 0px !important;
+        margin-top: 15px;
+       
+    }
+    .jumbotron{
+        height: 600px;
+    }
+}
+@media screen and (max-width: 330px) {
+   .brand,.navbar-brand,.logIn {
+       font-size: 0.7rem !important;
+   }
+
+    .homeText{
+        font-size: 0.5rem;
+    }
+    .display-3{
+        font-size: 1.5rem;
+    }
+    .btn-lg{
+        font-size: 0.3rem;
+    }
+    footer{
+        color: rgb(231, 231, 231) !important;
+        font-size: 0.4rem !important;
+    }
+    /* register */
+    .regFooter{
+        font-size: 1rem;
+    }
+}
