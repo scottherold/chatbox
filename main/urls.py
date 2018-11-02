@@ -18,6 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^friends/', include('apps.friends.urls', namespace="friends")),
     url(r'^dashboard/', include('apps.Dashboard.urls', namespace="dashboard")),
     url(r'^likes/', include('apps.likes.urls', namespace="likes")),
     url(r'^pokes/', include('apps.pokes.urls', namespace="pokes")),
