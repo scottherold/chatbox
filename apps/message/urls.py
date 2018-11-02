@@ -2,11 +2,9 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name="index"),
-    url(r'^create/$', views.create, name="create"),
-    url(r'^(?P<id>\d+)/update/$', views.update, name="update"),
-    url(r'^(?P<id>\d+)/destroy/$', views.destroy, name="destroy"),
-    url(r'^new/$', views.new, name="new"),
-    url(r'^(?P<id>\d+)/edit/$', views.edit, name="edit"),
-    url(r'^(?P<id>\d+)/$', views.show, name="show"),
+    url(r'^createComment/(?P<post_id>\d+)$', views.createComment, name="createComment"),
+    url(r'^createPost/$', views.createPost, name="createPost"),
+    url(r'^createReply/(?P<comment_id>\d+)$', views.createReply, name="createReply"),
+    url(r'^delete/(?P<post_id>\d+)$', views.delete, name="delete"),
+
 ]

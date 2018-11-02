@@ -1,3 +1,95 @@
+
+
+
+/* font awesome Icon */
 nav a .fa-user-circle{
     font-size: 25px;
+}
+.fa-heart{
+    font-size: 18px;
+
+}
+
+/* miscellaneous */
+.miscellaneous{
+    height: 500px;
+    width: 210px;
+
+}
+
+
+/* Comment Header */
+.profilePic, .details{
+    display: inline-block;
+}
+.details,{
+    margin-bottom: 10px;
+    vertical-align: bottom;
+}
+
+/* like Effects */
+.like{
+    text-decoration: none;
+    color: rgb(29, 29, 29);
+}
+.like:hover{
+    text-decoration: none;
+    background-color: rgb(255, 56, 56);
+    padding: 5px 10px;
+    border-radius: 10px;
+    color: white !important;
+    transition-duration: 0.5s;
+
+}
+/* commentBox */
+.commentBox div, .replyBox div{
+    vertical-align: top;
+    margin-bottom: 0px;
+    font-size: 13px;
+}
+    .comment_like{
+        text-decoration: none;
+        color: rgb(29, 29, 29);
+        font-size: 13px;
+    }
+    .comment_like .fa-heart{
+        font-size: 13px;
+    
+    }
+    .comment_like:hover{
+        text-decoration: none;
+        background-color: rgb(255, 64, 64);
+        padding: 2px 6px;
+        border-radius: 10px;
+        color: white !important;
+        transition-duration: 0.5s;
+    
+    }
+    .commentText{
+        min-width: 300px;
+    }
+    /* reply box */
+.replyBox hr{
+    margin-top: 10px;
+}
+.replyBox .fa-heart{
+    font-size: 10px;
+}
+.replyBox button{
+    font-size: 11px;
+}
+.ReplyButton button{
+    font-size: 12px;
+}
+.ReplyButton{
+    height: 30px;
+}
+
+
+
+/* friend list */
+
+.friendList{
+    height: 500px;
+    width: 250px;
 }
