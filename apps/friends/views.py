@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Poke
+from .models import Friend
 
 # Create your views here.
 
@@ -7,7 +7,7 @@ from .models import Poke
 #     pass
 
 def create(req):
-    Poke.objects.add_poke(req.POST)
+    Friend.objects.add_poke(req.POST)
     return redirect('users:index')
 
 def update(req, id):
