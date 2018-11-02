@@ -1,0 +1,66 @@
+<title>Login</title>
+{% extends "./layout.html" %}
+
+{%block head%}
+
+    
+
+{%endblock head%}
+
+{%block content%}
+
+<main role="main">
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron bg-light ">
+            <div class="container">
+                <div class="header">
+                    <h1 class="display-3">Hello!!</h1>
+                    <p> This is just some random text... you can write anything you want here.. Like this login page looks sick as hell.</p>
+                </div>
+                
+                <div class="col-md-6 order-md-1 ml-2 formss">
+                    <h4 class="mb-3">Login Information</h4>
+                    {% if messages %}
+                        <ul class="messages list-inline text-danger">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="ml-4 {{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <form  action="{%url 'users:LoginProccess'%}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control pb-4 pt-4" name="email" id="email" placeholder="you@example.com">
+                            
+                        </div>
+                        <div class="mb-3">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control pb-4 pt-4" name="password" id="password" placeholder="password">
+                            
+                        </div>
+                        <hr class="mb-4">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                    </form>
+                    <small>Need an Account? <span><a href="{%url 'users:registration'%}">Register Here</a></span></small>
+                </div>
+
+            </div>
+            
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">&copy; 2017-2018 MAAD</p>
+            <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+            </ul>
+        </footer>
+
+    </main>
+
+
+{%endblock content%}

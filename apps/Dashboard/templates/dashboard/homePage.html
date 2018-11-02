@@ -8,9 +8,43 @@
 
 
 {%block content%}
+    <div class="container mt-5 col-11">
+        {% if messages %}
+        <ul class=" list-inline messages text-{{request.session.messageColor}}">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+
+        <div class="row">
+
+            {% comment %} I do not know what to put here Yet..... {% endcomment %}
+            <section class="miselleneous col-2 bg-light">
+
+
+            </section>
 
 
 
+
+            {% comment %} This is where the messages will appear {% endcomment %}
+            <section class="messageBox col-7 bg-danger">
+
+
+            </section>
+
+
+
+
+            {% comment %} This where you can see your friends list and search for a specific one {% endcomment %}
+            <section class="friendList col-3 bg-dark">
+
+
+            </section>
+        </div>
+    </div>
 
 
 {%endblock content%}

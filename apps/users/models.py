@@ -32,12 +32,13 @@ class UserManager(models.Manager):
             errors.append('Password must be at least 8 characters long')
         if form['password'] != form['password_confirm']:
             errors.append('Password confirmation must match password')
-        if form['birth_date'] == "":
+
+        if len(form['birth_date'])<1:
             errors.append('Date of birth must be selected')
         return errors
 
     def create_user(self, user_data):
-        pw_hash = bcrypt.hashpw(user_data['password'].encode(), bcrypt.gensalt())
+        pw_hash = bcrypt.hashpw(user_data['password'].encode(), bcrypt.gensalt()).decode()
 
         user = self.create(
             first_name=user_data['first_name'],
@@ -46,20 +47,25 @@ class UserManager(models.Manager):
             email=user_data['email'],
             pw_hash=pw_hash,
             birth_date=user_data['birth_date'],
-            total_pokes=0
+            total_pokes=0,
+            description="I am ......"
         )
         return user
 
     def login(self, form):
-        user_list = self.filter(email=form['email'])
-        if len(user_list) > 0:
-            user = user_list[0]
-            if bcrypt.checkpw(form['password'].encode(), user.pw_hash.encode()):
-                return (True, user.id)
-            else:
-                return (False, "Incorrect Email and Password combination")
+        errors=[]
+        try:
+            User=self.get(email=form['email'])
+        except:
+            errors.append("invalid email or password")
+            return (False,errors)
+        
+        if bcrypt.checkpw(form['password'].encode(),User.pw_hash.encode()):
+            return (True,User.id)
         else:
-            return (False, "Incorrect Email and Password combination")
+            errors.append("invalid email or password")
+            return (False,errors)
+
 
 class User(models.Model):
     first_name = models.CharField(max_length=255)
@@ -69,6 +75,7 @@ class User(models.Model):
     pw_hash = models.CharField(max_length=500)
     birth_date = models.DateField()
     total_pokes = models.IntegerField()
+    description=models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
