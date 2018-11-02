@@ -18,8 +18,9 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^dashboard/', include('apps.Dashboard.urls', namespace="dashboard")),
     url(r'^likes/', include('apps.likes.urls', namespace="likes")),
     url(r'^pokes/', include('apps.pokes.urls', namespace="pokes")),
-    url(r'^wall/', include('apps.wall.urls', namespace="wall")),
-    url(r'^', include('apps.users.urls', namespace="users")),
+    url(r'^wall/', include('apps.message.urls', namespace="message")),
+    url(r'^', include('apps.users.urls', namespace="users"))
 ]
