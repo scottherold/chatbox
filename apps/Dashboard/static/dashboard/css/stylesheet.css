@@ -92,6 +92,7 @@ nav a .fa-user-circle{
 .friendList{
     height: 500px;
     width: 250px;
+    overflow: scroll;
 }
 
 

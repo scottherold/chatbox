@@ -28,3 +28,9 @@ def profile(req,user_id):
     return render(req,"dashboard/profilePage.html",context)
 
 
+def find_friends(req):
+    
+    context={
+        'users':User.objects.all()
+    }
+    return render(req, "dashboard/find_friends.html",context)

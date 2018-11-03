@@ -22,12 +22,13 @@
     <nav class="site-header sticky-top navbar navbar-expand-md navbar-dark bg-dark pb-2 pt-3">
         <div class="col-9">
             <a class="navbar-brand" href="{%url 'dashboard:homePage'%}"><i class="far fa-comment-alt"></i> ChatBox</a>
-            <a class="blog-header-logo text-white" href="{%url 'dashboard:homePage'%}">Dashboard</a>
+            <a class="blog-header-logo btn btn-dark" href="{%url 'dashboard:homePage'%}">Dashboard</a>
+            <a class="blog-header-logo  ml-3 btn btn-dark" href="{%url 'dashboard:find_friends'%}">Find Friends</a>
            
         </div>
         <div class="col-3 text-right">
-            <a class="text-white mr-4" href="{%url 'dashboard:profile' user_id=request.session.user_id%}"> <i class="fas fa-user-circle"></i></a>
-            <a class="text-white" href="{%url 'users:logout'%}"> Logout  <i class=" ml-1 mr-2 fas fa-sign-out-alt"></i></a>
+            <a class="text-white mr-4 btn btn-dark" href="{%url 'dashboard:profile' user_id=request.session.user_id%}"> <i class="fas fa-user-circle"></i></a>
+            <a class="text-white btn btn-dark" href="{%url 'users:logout'%}"> Logout  <i class=" ml-1 mr-2 fas fa-sign-out-alt"></i></a>
         </div>
     </nav>  
 
