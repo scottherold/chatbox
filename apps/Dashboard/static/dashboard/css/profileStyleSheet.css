@@ -14,31 +14,78 @@
     padding-bottom: 150px;
 }
 body{
-    background-color: rgb(70, 70, 70);
+    background-color: rgb(238, 238, 238);
     background-size: contain;
     background-repeat: no-repeat;
     position: relative;
     background-attachment:fixed;
 }
-#email{
-    height: 45px !important;
-}
-.modalHeader{
-    width: 450px;
-}
-#editButton:hover,#passswordButton:hover{
-
-    background-color: rgb(44, 44, 44) !important;
-    color: rgb(240, 240, 240) !important;
-
-    transition-duration: 0.5s;
-
-}
-.emaildisplay{
-    width: 150px;
-}
 .rightHeader{
-    overflow:hidden; 
+    margin-left: 280px;
+    width: 40%;
+}
+.rightHeader h2{
+    margin-top: 150px;
+    /* border-bottom: 1px solid rgb(194, 194, 194); */
+}
+
+.leftsection{
+    width: 230px;
+    display: inline-block;
+    position: relative;
+    bottom: 200px;
+}
+.leftsection img{
+    width: 100%;
+    background-size: contain;
+    background-position: center;
+}
+
+
+.rightsection{
+    display: inline-block;
+    vertical-align: top;
+    width: 600px;
+    margin-left: 32px;
+    min-height: 500px;
+}
+.social ul{
+    list-style: none;
+}
+
+.social{
+    font-size: 14px;
+}
+
+/* edit profile effects */
+
+.Imagecontainer {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+.Imagecontainer img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+.overlay {
+    position: absolute; 
+    bottom: 0; 
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.3); /* Black see-through */
+    color: #f1f1f1; 
+    width: 100%;
+    transition: .5s ease;
+    opacity:0;
+    color: white;
+    font-size: 20px;
+    padding: 20px;
+    text-align: center;
+}
+.Imagecontainer:hover .overlay {
+    opacity: 1;
 }
 
 @media screen and (max-width: 600px) {

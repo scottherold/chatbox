@@ -61,10 +61,6 @@ def update(req, user_id):
     return redirect('dashboard:profile',user_id=user_id )
 
 
-
-
-
-
 def login(req):
 
     return render(req,'users/login.html')
@@ -94,19 +90,6 @@ def logout(req):
     req.session.clear()
     return redirect('users:login')
 
-def pokes(req):
-    # the "index html" you have will go in the profile page i guess
-    # there is a Profile page in the Dashboard app you can do your magic there....
-    user = User.objects.get(id=req.session['user_id'])
-    poke_list = Poke.objects.filter(poke_user__id=req.session['user_id']).order_by("-poke_count")
-    context = {
-        'user': user,
-        'user_list': User.objects.all().exclude(id=user.id),
-        'poke_list': poke_list,
-        'poke_count': poke_list.count()
-    }
-    print(context['poke_list'].values())
-    return redirect("dashboard:homePage")
 
 
 

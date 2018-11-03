@@ -47,7 +47,7 @@
                                 <img class="rounded-circle" src="{%static 'dashboard/images/funnyProfile.jpg'%}" alt="Generic placeholder image" width="70" height="70">
                             </div>
                             <div class="details">
-                                <small>{{post.user.first_name}} {{post.user.last_name}}</small>
+                                <small><a href="{%url 'dashboard:profile' user_id=post.user.id%}">{{post.user.first_name}} {{post.user.last_name}}</a></small>
                                 <small class="d-block">{{post.created_at}}</small>
                             </div>
                             {% ifequal post.user.id request.session.user_id%}

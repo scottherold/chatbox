@@ -6,9 +6,9 @@ from .models import Poke
 def index(req):
     pass
 
-def create(req):
+def create(req, user_id):
     Poke.objects.add_poke(req.POST)
-    return redirect('users:index')
+    return redirect('dashboard:profile',user_id=user_id)
 
 def update(req, id):
     pass
