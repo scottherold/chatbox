@@ -45,20 +45,25 @@ def create(req):
     return redirect('users:registration')
     
 
-def update(req, id):
-    pass
+def update(req, user_id):
 
-def destroy(req, id):
-    pass
+    errors=User.objects.EditUser(req.POST,req.session["user_id"])
 
-def new(req):
-    pass
+    if len(errors) > 0:
+        for error in errors:
+            req.session['messageColor']="danger"
+            messages.error(req, error)
+    else:
 
-def edit(req, id):
-    pass
+        req.session['messageColor']="success"
+        messages.success(req, "Update Successfully")
 
-def show(req, id):
-    pass
+    return redirect('dashboard:profile',user_id=user_id )
+
+
+
+
+
 
 def login(req):
 
@@ -102,3 +107,18 @@ def pokes(req):
     }
     print(context['poke_list'].values())
     return redirect("dashboard:homePage")
+
+
+
+
+def destroy(req, id):
+    pass
+
+def new(req):
+    pass
+
+def edit(req, id):
+    pass
+
+def show(req, id):
+    pass

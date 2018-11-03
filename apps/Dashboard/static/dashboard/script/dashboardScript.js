@@ -38,4 +38,19 @@ $(document).ready(function () {
         $(this).parent().parent().parent().siblings("div.replyBox").slideToggle();
 
     })
+
+
+    // Profile effects for edit modal
+    $(".editPasswordSection").hide();
+
+    $("#passswordButton").click(function(){
+        $(".editInfoSection").hide();
+        $(".editPasswordSection").show("slide",{ direction: "right" });
+    })
+    $("#editButton").click(function(){
+
+        $(".editInfoSection").show("slide");
+        $(".editPasswordSection").hide();
+
+    })
 })

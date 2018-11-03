@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from ..message .models import Post
+from ..users.models import User
 # Create your views here.
 
 
@@ -19,7 +20,7 @@ def profile(req,user_id):
 
 
     context={
-        'user_id':user_id
+        'user': User.objects.get(id=user_id)
     }
     return render(req,"dashboard/profilePage.html",context)
 

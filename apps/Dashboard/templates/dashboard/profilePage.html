@@ -3,14 +3,132 @@
 
 {%block head%}
     <title>Profile</title>
+    {%load static%}
+    <link rel="stylesheet" href="{%static 'dashboard/css/profileStyleSheet.css'%}">
+
 {%endblock head%}
 
 
 
 {%block content%}
 
+<div class="container mt-5 bg-light">
+
+    <div class="py-5 text-center background text-white mb-3" style="background-image: url('{%static "dashboard/images/profileBG.jpg"%}');">
+        <div class="row profileHeader">
+            <div class="col-4 ml-3 text-left leftHeader">
+                <img class="d-block ml-2 mb-2 rounded-circle " src="{%static 'dashboard/images/funnyProfile.jpg' %}" alt="profile pic" width="120" height="125">
+                
+                <small class="d-block ml-4"><i class="fas fa-birthday-cake "></i> {{user.birth_date}}</small>
+                <small class="d-block  ml-3 mt-2 emaildisplay"><i class="fas fa-at"></i> {{user.email}}</small>
+
+                <!-- User edit Button -->
+                {% ifequal user.id request.session.user_id %}
+                    <button data-toggle="modal" data-target="#edit" class="btn btn-warning mt-3 ml-5"><i class="fas fa-user-edit"></i></button>
+                {% endifequal %}
+
+            </div>
+            <div class="col-7 text-left rightHeader">
+                <h2>{{user.user_name}}</h2>
+                <hr>
+                <lead class="lead">{{user.description}}</lead>
+            </div>
+        </div>
+
+    </div>
+    {% if messages %}
+        <ul class=" list-inline messages text-{{request.session.messageColor}}">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
 
-<h1>Profile page</h1>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <div class="modalHeader text-center">
+                    <button class=" btn btn-light" id="editButton">Edit Information</button>
+                    <button class=" btn btn-light ml-2" id="passswordButton">Change Password</button>
+                </div>
+                <button type="button" class="close closebutton ml-1" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="editInfoSection">
+                        <h6 class="mb-3 bg-dark text-white p-2 shadow">Edit Information</h6>
+                        <form class="needs-validation" action="{%url 'users:update' user_id=user.id%}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName">First name</label>
+                                    <input type="text" class="form-control " id="firstName" name="first_name" value="{{user.first_name}}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName">Last name</label>
+                                    <input type="text" class="form-control" id="lastName" name="last_name" value="{{user.last_name}}">
+                                </div>
+                            </div>
+                            <div class=" mb-3">
+                                <label for="username">User name</label>
+                                <input type="text" class="form-control" id="username" name="user_name" value="{{user.user_name}}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control" name="email" id="email" value="{{user.email}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="form-control" name="description" id="description" rows="3" value="{{user.description}}">{{user.description}}</textarea>
+                            </div>
+
+                            <hr class="mb-4">
+                            <div class="text-right">
+                                <button class="btn btn-success shadow" type="submit">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="editPasswordSection">
+        
+                        <h6 class=" mb-3 bg-dark text-white p-2 shadow">Change Password</h6>
+                        <form class="needs-validation" action="{%url 'users:update' user_id=user.id%}" method="post">
+                            {% csrf_token %}
+            
+                            <div class="mb-3 ">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" name="password" id="password" placeholder="password">
+            
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" class="form-control" name="confirmpassword" id="confirmPassword" placeholder="confirm password">
+                            </div>
+                            <input type="hidden" name="editRequest" id="user_id" value="fromUser">
+                            <hr class="mb-4">
+                            <div class="text-right">
+                                <button class="btn btn-success shadow" type="submit">Update Password</button>
+                            </div>
+            
+                        </form>
+                        
+                            
+                    </div>
+                </div>
+                
+                
+    
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 {%endblock content%}

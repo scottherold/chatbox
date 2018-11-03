@@ -9,5 +9,7 @@ urlpatterns = [
     url(r'^login/$', views.login, name="login"),
     url(r'^pokes/$', views.pokes, name="pokes"),
     url(r'^logout/$', views.logout, name="logout"),
+    url(r'^update/(?P<user_id>\d+)$', views.update, name="update"),
+
 ]
 

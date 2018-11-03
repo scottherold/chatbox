@@ -1,0 +1,58 @@
+.background{
+    background-size: cover;
+    /* background-repeat: no-repeat;
+    position: relative; */
+    background-position: center;
+    background-attachment:fixed;
+    height: 300px !important;
+
+    
+}
+.container{
+    box-shadow: 5px 3px 15px rgb(34, 34, 34);
+    padding: 0px;
+    padding-bottom: 150px;
+}
+body{
+    background-color: rgb(70, 70, 70);
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
+    background-attachment:fixed;
+}
+#email{
+    height: 45px !important;
+}
+.modalHeader{
+    width: 450px;
+}
+#editButton:hover,#passswordButton:hover{
+
+    background-color: rgb(44, 44, 44) !important;
+    color: rgb(240, 240, 240) !important;
+
+    transition-duration: 0.5s;
+
+}
+.emaildisplay{
+    width: 150px;
+}
+.rightHeader{
+    overflow:hidden; 
+}
+
+@media screen and (max-width: 600px) {
+
+   .rightHeader{
+    margin-left: 10px;
+   }
+
+}
+@media screen and (max-width: 330px) {
+
+    .rightHeader{
+        display: none;
+    }
+    
+ 
+ }
