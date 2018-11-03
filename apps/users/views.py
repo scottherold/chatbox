@@ -45,20 +45,21 @@ def create(req):
     return redirect('users:registration')
     
 
-def update(req, id):
-    pass
+def update(req, user_id):
 
-def destroy(req, id):
-    pass
+    errors=User.objects.EditUser(req.POST,req.session["user_id"])
 
-def new(req):
-    pass
+    if len(errors) > 0:
+        for error in errors:
+            req.session['messageColor']="danger"
+            messages.error(req, error)
+    else:
 
-def edit(req, id):
-    pass
+        req.session['messageColor']="success"
+        messages.success(req, "Update Successfully")
 
-def show(req, id):
-    pass
+    return redirect('dashboard:profile',user_id=user_id )
+
 
 def login(req):
 
@@ -89,16 +90,18 @@ def logout(req):
     req.session.clear()
     return redirect('users:login')
 
-def pokes(req):
-    # the "index html" you have will go in the profile page i guess
-    # there is a Profile page in the Dashboard app you can do your magic there....
-    user = User.objects.get(id=req.session['user_id'])
-    poke_list = Poke.objects.filter(poke_user__id=req.session['user_id']).order_by("-poke_count")
-    context = {
-        'user': user,
-        'user_list': User.objects.all().exclude(id=user.id),
-        'poke_list': poke_list,
-        'poke_count': poke_list.count()
-    }
-    print(context['poke_list'].values())
-    return redirect("dashboard:homePage")
+
+
+
+
+def destroy(req, id):
+    pass
+
+def new(req):
+    pass
+
+def edit(req, id):
+    pass
+
+def show(req, id):
+    pass

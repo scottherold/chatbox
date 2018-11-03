@@ -3,14 +3,214 @@
 
 {%block head%}
     <title>Profile</title>
+    {%load static%}
+    <link rel="stylesheet" href="{%static 'dashboard/css/profileStyleSheet.css'%}">
+
 {%endblock head%}
 
+ {% comment %} <small class="d-block ml-4"><i class="fas fa-birthday-cake "></i> {{user.birth_date}}</small>
+    <small class="d-block  ml-3 mt-2 emaildisplay"><i class="fas fa-at"></i> {{user.email}}</small> {% endcomment %}
 
+<!-- User edit Button -->
+{% comment %} {% ifequal user.id request.session.user_id %}
+    <button data-toggle="modal" data-target="#edit" class="btn btn-warning mt-3 ml-5"><i class="fas fa-user-edit"></i></button>
+{% endifequal %} {% endcomment %}
 
 {%block content%}
 
+    
+
+    <div class="container col-10 mt-5">
+
+        <div class="py-5 background text-white mb-3" style="background-image: url('{%static "dashboard/images/profileBG.jpg"%}');">
+
+            <div class="text-left rightHeader d-inline-block">
+                <h2 class="ml-3 font-weight-light">{{user.user_name}}</h2>
+
+                <small class="d-block ml-4 font-weight-light"><i class="fas fa-birthday-cake "></i> {{user.birth_date}}</small>
+                <small class="d-block  ml-4 mt-1 font-weight-light"><i class="fas fa-at"></i> {{user.email}}</small> 
+            </div>
+            {% ifnotequal user.id request.session.user_id  %}
+
+                <div class="d-inline">
+                    <a href="#" class="btn btn-light shadow font-weight-light  pt-1 ml-3 pb-1 mb-5"> <i class="fas fa-user-plus"></i> Add Friend</a>
+
+                    <form action="{% url 'pokes:create' user_id=user.id%}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" id="poke_user_id" name="poke_user_id" value="{{ user.id }}">
+                        <input type="hidden" id="user_id" name="user_id" value="{{ request.session.user_id }}">
+                        <button type="submit" class="btn btn-success shadow font-weight-light  pt-1 ml-3 pb-1 mb-5"><i class="fas fa-hand-point-up"></i> Poke</button>
+                    </form>
+                </div>
+            
+            {% endifnotequal %}
+            
 
 
-<h1>Profile page</h1>
+        </div>
+
+        <section class="lowerSection col-11 ml-4 ">
+
+            <div class="leftsection">
+                <div class="bg-light shadow">
+                    <div class="Imagecontainer">
+                        <a href="#" data-toggle="modal" data-target="#edit">
+                            <img class="mb-2 " src="{%static 'dashboard/images/funnyProfile.jpg' %}" alt="profile pic">
+                            <div class="overlay">Edit</div>
+                        </a> 
+                        
+                    </div>
+                    <div class="ml-3 pr-2">
+                        <small class="font-weight-bold">About</small>
+                        <p> <small>{{user.description}}</small></p>
+                        <hr>
+                    </div>
+                    <div class="social ml-3">
+                        <div class="row">
+                        <ul class="col-5 text-muted mr-4">
+                            <li class="mb-2">Friends</li>
+                            <li>Poke</li>
+                            <li></li>
+                        </ul>
+                        <ul class="col-5 text-weight-bold ml-3">
+                            <li class="mb-2">102</li>
+                            <li>{{ poke_count }} {% if poke_count == 1 %} <i class="fas fa-user"></i> {% else %} <i class="fas fa-users"></i> {% endif %}</li>
+                            <li></li>
+                        </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class=" mt-4 shadow">
+                    <h5 class="font-weight-light ml-3"><i class="fas fa-users"></i> Friends</h5>
+                    <div class="ml-3">
+                            <p>Aaron Dasani</p>
+                            <p>Scott Herold</p>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="rightsection col-9 bg-danger">
+
+            </div>
+
+
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {% if messages %}
+            <ul class=" list-inline messages text-{{request.session.messageColor}}">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+
+    </div>
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <div class="modalHeader text-center">
+                    <button class=" btn btn-light" id="editButton">Edit Information</button>
+                    <button class=" btn btn-light ml-2" id="passswordButton">Change Password</button>
+                </div>
+                <button type="button" class="close closebutton ml-1" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="editInfoSection">
+                        <h6 class="mb-3 bg-dark text-white p-2 shadow">Edit Information</h6>
+                        <form class="needs-validation" action="{%url 'users:update' user_id=user.id%}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName">First name</label>
+                                    <input type="text" class="form-control " id="firstName" name="first_name" value="{{user.first_name}}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName">Last name</label>
+                                    <input type="text" class="form-control" id="lastName" name="last_name" value="{{user.last_name}}">
+                                </div>
+                            </div>
+                            <div class=" mb-3">
+                                <label for="username">User name</label>
+                                <input type="text" class="form-control" id="username" name="user_name" value="{{user.user_name}}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control" name="email" id="email" value="{{user.email}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="form-control" name="description" id="description" rows="3" value="{{user.description}}">{{user.description}}</textarea>
+                            </div>
+
+                            <hr class="mb-4">
+                            <div class="text-right">
+                                <button class="btn btn-success shadow" type="submit">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="editPasswordSection">
+        
+                        <h6 class=" mb-3 bg-dark text-white p-2 shadow">Change Password</h6>
+                        <form class="needs-validation" action="{%url 'users:update' user_id=user.id%}" method="post">
+                            {% csrf_token %}
+            
+                            <div class="mb-3 ">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" name="password" id="password" placeholder="password">
+            
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" class="form-control" name="confirmpassword" id="confirmPassword" placeholder="confirm password">
+                            </div>
+                            <input type="hidden" name="editRequest" id="user_id" value="fromUser">
+                            <hr class="mb-4">
+                            <div class="text-right">
+                                <button class="btn btn-success shadow" type="submit">Update Password</button>
+                            </div>
+            
+                        </form>
+                        
+                            
+                    </div>
+                </div>
+                
+                
+    
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 {%endblock content%}

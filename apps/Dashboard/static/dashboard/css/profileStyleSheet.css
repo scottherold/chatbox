@@ -1,0 +1,105 @@
+.background{
+    background-size: cover;
+    /* background-repeat: no-repeat;
+    position: relative; */
+    background-position: center;
+    background-attachment:fixed;
+    height: 300px !important;
+
+    
+}
+.container{
+    box-shadow: 5px 3px 15px rgb(34, 34, 34);
+    padding: 0px;
+    padding-bottom: 150px;
+}
+body{
+    background-color: rgb(238, 238, 238);
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
+    background-attachment:fixed;
+}
+.rightHeader{
+    margin-left: 280px;
+    width: 40%;
+}
+.rightHeader h2{
+    margin-top: 150px;
+    /* border-bottom: 1px solid rgb(194, 194, 194); */
+}
+
+.leftsection{
+    width: 230px;
+    display: inline-block;
+    position: relative;
+    bottom: 200px;
+}
+.leftsection img{
+    width: 100%;
+    background-size: contain;
+    background-position: center;
+}
+
+
+.rightsection{
+    display: inline-block;
+    vertical-align: top;
+    width: 600px;
+    margin-left: 32px;
+    min-height: 500px;
+}
+.social ul{
+    list-style: none;
+}
+
+.social{
+    font-size: 14px;
+}
+
+/* edit profile effects */
+
+.Imagecontainer {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+.Imagecontainer img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+.overlay {
+    position: absolute; 
+    bottom: 0; 
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.3); /* Black see-through */
+    color: #f1f1f1; 
+    width: 100%;
+    transition: .5s ease;
+    opacity:0;
+    color: white;
+    font-size: 20px;
+    padding: 20px;
+    text-align: center;
+}
+.Imagecontainer:hover .overlay {
+    opacity: 1;
+}
+
+@media screen and (max-width: 600px) {
+
+   .rightHeader{
+    margin-left: 10px;
+   }
+
+}
+@media screen and (max-width: 330px) {
+
+    .rightHeader{
+        display: none;
+    }
+    
+ 
+ }
