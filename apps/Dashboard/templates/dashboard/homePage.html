@@ -3,12 +3,14 @@
 
 {%block head%}
     <title>Dashboard</title>
+    {%load static%}
+    <script src="{%static 'dashboard/script/dashboardScript.js'%}"></script>
 {%endblock head%}
 
 
 
 {%block content%}
-    <div class="container mt-5 col-11">
+    <div class="container mt-5 col-12 pl-4">
         {% if messages %}
         <ul class=" list-inline messages text-{{request.session.messageColor}}">
             {% for message in messages %}
@@ -21,30 +23,163 @@
         <div class="row">
 
             {% comment %} I do not know what to put here Yet..... {% endcomment %}
-            <section class="miselleneous col-2 bg-light">
-
-
+            <section class="miscellaneous ml-2 bg-light">
+                <legend class="text-center">Miscellaneous</legend>
+                
             </section>
-
-
-
 
             {% comment %} This is where the messages will appear {% endcomment %}
-            <section class="messageBox col-7 bg-danger">
+            <section class="messageBox col-6 ml-3 mr-3">
+                <div class="row">
+                    <form action="" method="post" class="form-inline mt-2 mt-md-0 col-10">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                        {% comment %} <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> {% endcomment %}
+                    </form>
+                    <button data-toggle="modal" data-target="#CreatePost" class="btn btn-outline-success font-weight-light p-2">Write Post</button>
+                </div>
+                <hr>
+                <div class="content">
+                    {% for post in posts  %}
+                    
+                    
+                        <div class="shadow mb-4 p-3">
+                            <div class="profilePic">
+                                <img class="rounded-circle" src="{%static 'dashboard/images/funnyProfile.jpg'%}" alt="Generic placeholder image" width="70" height="70">
+                            </div>
+                            <div class="details">
+                                <small>{{post.user.first_name}} {{post.user.last_name}}</small>
+                                <small class="d-block">{{post.created_at}}</small>
+                            </div>
+                            {% ifequal post.user.id request.session.user_id%}
+                                {% comment %} Delete Form {% endcomment %}
+                                <form action="{%url 'message:delete' post_id=post.id%}" method="post" class="d-inline-block">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger pt-0 pb-0">Delete</button>
+                                </form>
+                           
+                            {% endifequal %}
+                           
+                            <p  class="mt-3">{{post.content}}</p>
+                            <div class="row">
+                                <small class="font-weight-light col-8">{{post.likePost.count}} people like this </small>
+                                <small class="font-weight-light ml-3 viewAll"><a href= "#">view all comment</a></small>                            
+                                <small class="font-weight-light text-right ml-3">{{post.comment.all.count}} Reply </small>
+                            </div>
+                            <hr>
+                            <div class="mt-2 row">
+                                <span class="col-9">
+                                    <a href="{%url 'likes:like_Post' post_id=post.id%}" class="d-inline-block like">
+                                        <span class=""><i class="far fa-heart"></i> Like</span>
+                                    </a>
+                                </span>
+                                <button class="btn btn-outline-dark p-1 pr-4 pl-4 comment">Comment</button>
+                            </div>
 
+                            {% comment %} comments of the Post {% endcomment %}
+                            {% for comment in post.comment.all  %}
+                            
+                           
+                                <div class="commentBox ml-2">
+                                    <hr>
+                                    <div>
+                                        <img class="rounded-circle d-inline-block mr-3" src="{%static 'dashboard/images/funnyProfile.jpg'%}" alt="Generic placeholder image" width="40" height="40">
+                                        <div class="d-inline-block ">
+                                            <p class="mb-0 bg-light p-2 rounded ">
+                                                <span class="font-weight-bold mr-2 ml-1">{{comment.user.first_name}} {{comment.user.last_name}}</span> {{comment.content}}
+                                            </p>
+                                            <div class="mt-2 row commentText">
+                                                <span class="col-5 ml-1">
+                                                    <a href="{%url 'likes:like_Comment' comment_id=comment.id%}" class="d-inline-block comment_like">
+                                                        <span class=""><i class="far fa-heart"></i> Like</span>
+                                                    </a>
+                                                </span>
+                                                <small class="font-weight-light mr-3 Allreply"><a href= "#">view all comment</a></small>  
+                                                <small class="reply pt-0 pb-0"><a href="#">Reply</a></small>
+                                                <small class="reply pt-0 pb-0 ml-2"> <i class="far fa-thumbs-up"></i> {{comment.likeComment.all.count}}</small>
+                                            </div>
+                                        </div>
 
+                                        {% comment %} Reply Button for that comment {% endcomment %}
+                                        <form action="{%url 'message:createReply' comment_id=comment.id%}" method="post" class=" mt-3 ml-5 row ReplyButton">
+                                            {% csrf_token %}
+                                            <div class="col-8 input-group input-group-sm mb-3">
+                                                <input class="form-control" type="text" name="reply" placeholder="Reply...">
+                                            </div>
+                                            <input type="hidden" name="reply_id" value="{{comment.id}}">
+                                            <button type="submit" class="btn btn-sm btn-outline-primary  ml-1 ">Reply</button>
+                                            
+                                        </form>
+                                    </div>
+                                    <hr>
+                                    {% comment %} The replies of that one Comment {% endcomment %}
+                                    {% for reply in comment.reply.all %}
+                                        <div class="replyBox ml-5">
+                                            <div>
+                                                <img class="rounded-circle d-inline-block mr-3" src="{%static 'dashboard/images/funnyProfile.jpg'%}" alt="Generic placeholder image" width="40" height="40">
+                                                <div class="d-inline-block">
+                                                    <p class="mb-0 bg-light p-2 rounded ">{{reply.content}}</p>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+                            {% endfor %}
+                            <div class="bg-light postingButton">
+                                {% comment %} Post Button {% endcomment %}
+                                <form action="{%url 'message:createComment' post_id=post.id%}" method="post" class=" mt-3 row">
+                                    {% csrf_token %}
+                                    <div class=" col-9">
+                                        <input class="form-control mr-sm-2 form-inline" type="text" name="comment" placeholder="Comment...">
+                                    </div>
+                                    <input type="hidden" name="reply_id" value="0">
+                                    <button type="submit" class="btn btn-sm btn-outline-primary pl-4 pr-4 ml-1 ">Comment</button>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                
             </section>
-
-
-
-
-            {% comment %} This where you can see your friends list and search for a specific one {% endcomment %}
-            <section class="friendList col-3 bg-dark">
-
-
+             {% comment %} This where you can see your friends list and search for a specific one {% endcomment %}
+            <section class="friendList  bg-light text-white">
+                <legend class="p-2 shadow text-center bg-dark">Friends</legend>
+                
+    
             </section>
         </div>
+       
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="CreatePost" tabpost="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content bg-light">
+                    <div class="modal-header ">
+                        <div class="modalHeader text-center">
+                            <h5 class="font-weight-light">Write Post</h5>
+                        </div>
+                        <button type="button" class="close closebutton ml-1" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        
+                    </div>
+                
+                    <form id="CreatePostForm" action="{%url 'message:createPost'%}" method="post">
+                        {% csrf_token %}
 
+                        <div class="modal-body">
+                            <textarea class="form-control" id="post" name="post" rows="5"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-info" >Post</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {%endblock content%}
