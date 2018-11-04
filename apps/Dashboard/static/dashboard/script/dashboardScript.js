@@ -74,9 +74,20 @@ $(document).ready(function () {
 
         } 
         
-        
-        
     );
     
+    // Search Freinds Ajax
+    $("#FindfriendForm").submit(function(e){
+        e.preventDefault()
+        $.ajax({
+            method:"POST",
+            url:$("#FindfriendForm").attr("action"),
+            data:$("#FindfriendForm").serialize(),
+            success:function(response){
+                console.log("received response", response)
+                $("#friendBox").html(response);
+            }
+        });
+    });
     
 });

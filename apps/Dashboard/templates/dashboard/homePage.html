@@ -31,17 +31,16 @@
             {% comment %} This is where the messages will appear {% endcomment %}
             <section class="messageBox col-6 ml-3 mr-3">
                 <div class="row">
-                    <form action="" method="post" class="form-inline mt-2 mt-md-0 col-10">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                    <form id="findPost" action="{%url 'dashboard:searchPostByName'%}" method="post" class="form-inline mt-2 mt-md-0 col-10">
+                        {% csrf_token %}
+                        <input class="form-control mr-sm-2" type="text" name="keyword" placeholder="Search" aria-label="Search">
                         {% comment %} <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> {% endcomment %}
                     </form>
                     <button data-toggle="modal" data-target="#CreatePost" class="btn btn-outline-success font-weight-light p-2 writePost">Write Post</button>
                 </div>
                 <hr>
-                <div class="content">
+                <div class="content" id="postContent">
                     {% for post in posts  %}
-                    
-                    
                         <div class="shadow mb-4 p-3">
                             <div class="profilePic">
                                 <img class="rounded-circle" src="{%static 'dashboard/images/funnyProfile.jpg'%}" alt="Generic placeholder image" width="70" height="70">
@@ -147,7 +146,7 @@
              {% comment %} This where you can see your friends list and search for a specific one {% endcomment %}
             <section class="friendList  bg-light text-white">
                 <legend class="p-2 mb-3 shadow text-center bg-dark"><i class="fas fa-users"></i> Friends</legend>
-                <div class="mb-4">
+                <div class="mb-4" id="friendBox">
                     {% for index in friends %}
                         <div class="ml-3 mb-1">
                             <img class="rounded-circle d-inline-block mr-3" src="{%static 'dashboard/images/funnyProfile.jpg'%}" alt="Generic placeholder image" width="40" height="40">
@@ -157,8 +156,9 @@
                     {% endfor %}
                 </div>
                 <hr>
-                <form action="" method="post" class="form-inline mt-md-0 col-10">
-                    <input class="form-control mr-sm-2 " type="text" placeholder="search.." aria-label="Search">
+                <form id="FindfriendForm" action="{%url 'dashboard:searchFriends'%}" method="post" class="form-inline mt-md-0 col-10">
+                    {% csrf_token %}
+                    <input class="form-control mr-sm-2 " name="keyword" type="text" placeholder="search.." >
                 </form>
             </section>
         </div>
@@ -193,4 +193,5 @@
             </div>
         </div>
     </div>
+   
 {%endblock content%}

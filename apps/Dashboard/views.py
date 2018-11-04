@@ -62,3 +62,24 @@ def find_friends(req):
     }
     
     return render(req, "dashboard/find_friends.html",context)
+
+
+# ----------->>>>>>>>>>>Ajax Behavior<<<<<<<<<<_---------
+
+def searchFriends(req):
+    friends=User.objects.filter(friended_from_user__friend_user=req.session['user_id']).filter(friend_user__friend_from=req.session['user_id']).filter(first_name__startswith=req.POST['keyword'])
+    
+    context={
+        'specific_friends':friends
+    }
+    return render(req, "dashboard/ajaxFriendSearch.html",context)
+
+
+def searchPostByName(req):
+    posts=Post.objects.filter(user__first_name__startswith=req.POST['keyword'])
+    
+    
+    context={
+        'posts':posts
+    }
+    return render(req, "dashboard/ajaxFriendSearch.html",context)
