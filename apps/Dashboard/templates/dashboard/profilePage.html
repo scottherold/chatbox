@@ -8,13 +8,6 @@
 
 {%endblock head%}
 
- {% comment %} <small class="d-block ml-4"><i class="fas fa-birthday-cake "></i> {{user.birth_date}}</small>
-    <small class="d-block  ml-3 mt-2 emaildisplay"><i class="fas fa-at"></i> {{user.email}}</small> {% endcomment %}
-
-<!-- User edit Button -->
-{% comment %} {% ifequal user.id request.session.user_id %}
-    <button data-toggle="modal" data-target="#edit" class="btn btn-warning mt-3 ml-5"><i class="fas fa-user-edit"></i></button>
-{% endifequal %} {% endcomment %}
 
 {%block content%}
 
@@ -33,7 +26,27 @@
             {% ifnotequal user.id request.session.user_id  %}
 
                 <div class="d-inline">
-                    <a href="#" class="btn btn-light shadow font-weight-light  pt-1 ml-3 pb-1 mb-5"> <i class="fas fa-user-plus"></i> Add Friend</a>
+                    {% if Are_you_Friend%}
+                        <form action="{%url 'friends:delete' user_id=user.id%}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" id="friend_user_id" name="friend_user_id" value="{{ user.id }}">
+                            <input type="hidden" id="user_id" name="user_id" value="{{ request.session.user_id }}">
+                            <button type="submit" class="btn btn-primary shadow font-weight-light  pt-1 ml-3 pb-1 mb-5 friendBTN"> <i class="fas fa-user-friends"></i> <span>Friend</span> </button>
+                        </form>
+                    {%elif waitingForConfirmation%}
+                        <a class="btn btn-warning shadow font-weight-light pt-1 pb-1 mb-5"> <i class="far fa-clock"></i> Waiting confirmation </a>
+                    {% else %}
+                       
+                        <form action="{%url 'friends:create' user_id=user.id%}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" id="friend_user_id" name="friend_user_id" value="{{ user.id }}">
+                            <input type="hidden" id="user_id" name="user_id" value="{{ request.session.user_id }}">
+                            <input type="hidden" name="location" value="profilePage">
+                            <button type="submit" class="btn btn-light shadow font-weight-light  pt-1 ml-3 pb-1 mb-5"> <i class="fas fa-user-plus"></i> Add Friend</button>
+                        </form>
+                    {% endif %}
+                    
+                    
 
                     <form action="{% url 'pokes:create' user_id=user.id%}" method="post" class="d-inline">
                         {% csrf_token %}
@@ -54,10 +67,15 @@
             <div class="leftsection">
                 <div class="bg-light shadow">
                     <div class="Imagecontainer">
-                        <a href="#" data-toggle="modal" data-target="#edit">
+                        
+                        {% ifequal user.id request.session.user_id %}
+                            <a href="#" data-toggle="modal" data-target="#edit">
+                                <img class="mb-2 " src="{%static 'dashboard/images/funnyProfile.jpg' %}" alt="profile pic">
+                                <div class="overlay">Edit</div>
+                            </a> 
+                        {%else%}
                             <img class="mb-2 " src="{%static 'dashboard/images/funnyProfile.jpg' %}" alt="profile pic">
-                            <div class="overlay">Edit</div>
-                        </a> 
+                        {% endifequal %}
                         
                     </div>
                     <div class="ml-3 pr-2">
@@ -73,7 +91,7 @@
                             <li></li>
                         </ul>
                         <ul class="col-5 text-weight-bold ml-3">
-                            <li class="mb-2">102</li>
+                            <li class="mb-2">{{ totalFriend }} {% if totalFriend == 1 %} <i class="fas fa-user"></i> {% else %} <i class="fas fa-users"></i> {% endif %}</li>
                             <li>{{ poke_count }} {% if poke_count == 1 %} <i class="fas fa-user"></i> {% else %} <i class="fas fa-users"></i> {% endif %}</li>
                             <li></li>
                         </ul>
@@ -81,17 +99,26 @@
                     </div>
                     
                 </div>
-                <div class=" mt-4 shadow">
-                    <h5 class="font-weight-light ml-3"><i class="fas fa-users"></i> Friends</h5>
-                    <div class="ml-3">
-                            <p>Aaron Dasani</p>
-                            <p>Scott Herold</p>
-                    </div>
+                <div class="friendSection bg-light mt-4 shadow pb-3 pt-3">
+                    <h5 class="font-weight-light ml-3 "><i class="fas fa-users"></i> Friends</h5>
+                    <hr>
+                    {% ifequal friends.count 0%}
+                        <small class="ml-2">You have not friend yet</small>
+                    {% endifequal %}
+
+                    {% for index in friends %}
+                        <div class="ml-3 mb-2">
+                            <img class="rounded-circle d-inline-block mr-3" src="{%static 'dashboard/images/funnyProfile.jpg'%}" alt="Profile picture" width="40" height="40">
+                            <a href="{%url 'dashboard:profile' user_id=index.id%}"><small class="text-dark">{{index.first_name}} {{index.last_name}}</small></a> 
+                        </div>
+                    
+                    {% endfor %}
+                    
                     
                 </div>
             </div>
 
-            <div class="rightsection col-9 bg-danger">
+            <div class="rightsection col-9 bg-light">
 
             </div>
 

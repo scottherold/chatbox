@@ -12,7 +12,50 @@
 {%block content%}
 
     
+    <div class="container findFriend mt-5 col-8">
 
+        <div class="shadow p-3">
+            <legend>Respond to your {{friend_request.count}} Friend Requests</legend>
+            <hr>
+            {% ifequal friend_request.count 0%}
+            
+                <small class="ml-1">You have not friend request</small>
+            {% endifequal %}
+
+            {% for index in friend_request %}
+                <div class=" row">
+                    <a href="{%url 'dashboard:profile' user_id=index.id%}" class="col-8">
+                        <h6 >{{index.first_name}} {{index.last_name}}</h6>
+                    </a>
+
+                    <form action="{%url 'friends:create' user_id=index.id%}" method="post" class="confirmFriend">
+                        {% csrf_token %}
+                        <input type="hidden" id="friend_user_id" name="friend_user_id" value="{{ index.id }}">
+                        <input type="hidden" id="user_id" name="user_id" value="{{ request.session.user_id }}">
+                        <input type="hidden" name="location" value="find_friend">
+                        <button type="submit" class="btn btn-light shadow font-weight-light  pt-1 ml-3 pb-1 mb-5"> <i class="fas fa-user-plus"></i> Confirm Friend Request</button>
+                    </form>
+                    
+                </div>
+                <hr>
+   
+               
+            {% endfor %}
+
+        </div>
+        <div class="mt-4 shadow p-3">
+            <legend>People You May Know   <i class="fas fa-users ml-2"></i></legend>
+            <hr>
+            {% for index in potentialFriends  %}
+            <div class="row">
+                <h6 class="col-8 mb-0">{{index.first_name}} {{index.last_name}}</h6>
+                <a href="{%url 'dashboard:profile' user_id=index.id%}" class="btn btn-outline-success"> Profile</a>
+
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
+    </div>
 
 
 

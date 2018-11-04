@@ -35,7 +35,7 @@
                         <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
                         {% comment %} <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> {% endcomment %}
                     </form>
-                    <button data-toggle="modal" data-target="#CreatePost" class="btn btn-outline-success font-weight-light p-2">Write Post</button>
+                    <button data-toggle="modal" data-target="#CreatePost" class="btn btn-outline-success font-weight-light p-2 writePost">Write Post</button>
                 </div>
                 <hr>
                 <div class="content">
@@ -60,16 +60,16 @@
                             {% endifequal %}
                            
                             <p  class="mt-3">{{post.content}}</p>
-                            <div class="row">
-                                <small class="font-weight-light col-8">{{post.likePost.count}} people like this </small>
+                            <div class="row postInfo">
+                                <small class="font-weight-light col-8 ">{{post.likePost.count}} people like this </small>
                                 <small class="font-weight-light ml-3 viewAll"><a href= "#">view all comment</a></small>                            
                                 <small class="font-weight-light text-right ml-3">{{post.comment.all.count}} Reply </small>
                             </div>
                             <hr>
                             <div class="mt-2 row">
-                                <span class="col-9">
+                                <span class="col-9 postLike">
                                     <a href="{%url 'likes:like_Post' post_id=post.id%}" class="d-inline-block like">
-                                        <span class=""><i class="far fa-heart"></i> Like</span>
+                                        <span class=""><i class="far fa-heart "></i> Like</span>
                                     </a>
                                 </span>
                                 <button class="btn btn-outline-dark p-1 pr-4 pl-4 comment">Comment</button>
@@ -80,7 +80,7 @@
                             
                            
                                 <div class="commentBox ml-2">
-                                    <hr>
+                
                                     <div>
                                         <img class="rounded-circle d-inline-block mr-3" src="{%static 'dashboard/images/funnyProfile.jpg'%}" alt="Generic placeholder image" width="40" height="40">
                                         <div class="d-inline-block ">
@@ -147,11 +147,19 @@
              {% comment %} This where you can see your friends list and search for a specific one {% endcomment %}
             <section class="friendList  bg-light text-white">
                 <legend class="p-2 mb-3 shadow text-center bg-dark"><i class="fas fa-users"></i> Friends</legend>
-                <div class="ml-3 mb-1">
-                    <img class="rounded-circle d-inline-block mr-3" src="{%static 'dashboard/images/funnyProfile.jpg'%}" alt="Generic placeholder image" width="40" height="40">
-                    <small class="text-dark">Jake Burn</small>
+                <div class="mb-4">
+                    {% for index in friends %}
+                        <div class="ml-3 mb-1">
+                            <img class="rounded-circle d-inline-block mr-3" src="{%static 'dashboard/images/funnyProfile.jpg'%}" alt="Generic placeholder image" width="40" height="40">
+                            <a href="{%url 'dashboard:profile' user_id=index.id%}"><small class="text-dark">{{index.first_name}} {{index.last_name}}</small></a> 
+                        </div>
+                    
+                    {% endfor %}
                 </div>
-    
+                <hr>
+                <form action="" method="post" class="form-inline mt-md-0 col-10">
+                    <input class="form-control mr-sm-2 " type="text" placeholder="search.." aria-label="Search">
+                </form>
             </section>
         </div>
        

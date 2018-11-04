@@ -94,6 +94,128 @@ nav a .fa-user-circle{
     width: 250px;
     overflow: scroll;
 }
+.friendList>div{
+    min-height: 340px;
+}
+.confirmFriend{
+    height:40px; 
+}
 
+
+
+/* media Queries */
+@media screen and (max-width: 1140px) {
+
+    .col-8{
+        width: 60% !important;
+        flex: none;
+   }
+}
+@media screen and (max-width: 1080px) {
+
+.row>form{
+    width: 80% !important;
+    flex: none;
+}
+.postLike{
+    width: 70% !important;
+    flex: none;
+}
+}
+
+
+@media screen and (max-width: 1080px) {
+
+    /* body{
+        background-color: darkblue;
+    } */
+    .row>form{
+        width: 80% !important;
+        flex: none;
+    }
+}
+
+
+@media screen and (max-width: 420px) {
+
+body{
+    background-color: rgb(56, 56, 56);
+    color: white;
+    padding-bottom: 40px;
+}
+.miscellaneous{
+    display: none;
+}
+.messageBox{
+    max-width: 90% !important;
+    flex: none;
+    
+}
+.row>form{
+    width: 60% !important;
+    flex: none;
+}
+.postLike{
+    width: 60% !important;
+    flex: none;
+}
+.commentBox span{
+    font-size: 10px;
+}
+.commentBox p{
+    font-size: 10px;
+}
+.commentBox .d-inline-block{
+    margin-top: 10px;
+}
+.writePost{
+    padding: 3px !important;
+    font-size: 13px;
+}
+
+.like{
+    color: beige;
+}
+.friendList{
+    width: 80% !important;
+    flex: none;
+    margin-left: 35px;
+    
+}
+nav .col-3 a> span{
+    display: none;
+}
+
+nav .navbar-brand+a{
+    display: none;
+}
+.navbar-brand{
+    margin-right: 0px;
+}
+nav .blog-header-logo{
+    margin-left: 0px !important;
+}
+nav .col-9{
+    max-width: 62% !important;
+    flex: none;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+nav .col-9 +div>a{
+    margin-right: 0px !important;
+}
+nav .col-3{
+    max-width: 30% !important;
+    flex: none;
+    text-align: start !important;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.findFriend{
+    width: 90% !important;
+    flex: none;
+   
+}
+}
 
 

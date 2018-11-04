@@ -12,9 +12,11 @@
     box-shadow: 5px 3px 15px rgb(34, 34, 34);
     padding: 0px;
     padding-bottom: 150px;
+    /* background-color: #dfdfdf; */
+    background-image: linear-gradient(to bottom left, rgb(228, 228, 228), rgb(250, 250, 250));
 }
 body{
-    background-color: rgb(238, 238, 238);
+    background-color: rgb(231, 231, 231);
     background-size: contain;
     background-repeat: no-repeat;
     position: relative;
@@ -40,7 +42,10 @@ body{
     background-size: contain;
     background-position: center;
 }
+.friendSection img{
+    width: 40px;
 
+}
 
 .rightsection{
     display: inline-block;
@@ -88,18 +93,77 @@ body{
     opacity: 1;
 }
 
-@media screen and (max-width: 600px) {
 
-   .rightHeader{
-    margin-left: 10px;
-   }
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 1120px) {
+    .rightHeader{
+        width: 30% !important;
+        flex: none;
+    }
+    .background button , .background a{
+        font-size: 16px;
+    }
 
 }
-@media screen and (max-width: 330px) {
-
-    .rightHeader{
-        display: none;
+@media screen and (max-width: 800px) {
+    .background button , .background a{
+        font-size: 12px;
     }
-    
- 
- }
+    .rightHeader> h2{
+        margin-top: 80px !important;
+    }
+    .rightHeader+div{
+        display: block !important;
+        text-align: end;
+        margin-top: 30px;
+        margin-right: 35px;
+    }
+}
+@media screen and (max-width: 440px) {
+
+    .leftsection,.rightsection{
+        color: black !important;
+    }
+    .rightHeader{
+        width: 90% !important;
+        flex: none;
+        text-align: center !important;
+        margin-left: 0px !important;
+        
+    }
+    .rightHeader> h2{
+        margin-top: 10px !important;
+    }
+    .background{
+        padding-top: 10px !important;
+    }
+    .rightHeader > small{
+        margin-left: 5px !important;
+    }
+    .rightHeader +div{
+        margin-left: 35px;
+        display: block !important;
+        margin-top: 5px;
+    }
+    .leftsection{
+        bottom: 150px;
+        margin-left: 10px;
+    }
+    .background button , .background a{
+        font-size: 14px;
+    }
+}
+@media screen and (max-width: 380px) {
+    .background button , .background a{
+        font-size: 12px;
+    }
+
+}
