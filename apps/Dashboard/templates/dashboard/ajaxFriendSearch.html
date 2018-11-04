@@ -1,0 +1,9 @@
+
+{%load static%}
+{% for index in specific_friends %}
+    <div class="ml-3 mb-1">
+        <img class="rounded-circle d-inline-block mr-3" src="{%static 'dashboard/images/funnyProfile.jpg'%}" alt="Generic placeholder image" width="40" height="40">
+        <a href="{%url 'dashboard:profile' user_id=index.id%}"><small class="text-dark">{{index.first_name}} {{index.last_name}}</small></a> 
+    </div>
+
+{% endfor %}
