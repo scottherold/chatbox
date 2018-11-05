@@ -10,7 +10,7 @@ NumericValue_REGEX=re.compile(r'^(?=.*?[0-9])')
 # Create your models here.
 
 class UserManager(models.Manager):
-    def validate(self, form,image):
+    def validate(self, form):
         errors = []
         if len(form['first_name']) < 3:
             errors.append('First name must be at least three characters long')
