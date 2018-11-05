@@ -19,10 +19,20 @@ nav a .fa-user-circle{
 
 
 /* Comment Header */
+.profilePic{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+}
+.profilePic img,.rounded-circle{
+    border: 2px solid rgb(233, 233, 233);
+    box-shadow: 2px 2px 7px rgb(143, 143, 143);
+}
 .profilePic, .details{
     display: inline-block;
 }
-.details,{
+.details{
     margin-bottom: 10px;
     vertical-align: bottom;
 }
@@ -121,20 +131,14 @@ nav a .fa-user-circle{
     width: 70% !important;
     flex: none;
 }
+.postHeader{
+    width: 90% !important;
+    flex: none;
 }
-
-
-@media screen and (max-width: 1080px) {
-
-    /* body{
-        background-color: darkblue;
-    } */
-    .row>form{
-        width: 80% !important;
-        flex: none;
-    }
+.postHeader+form{
+    width: 10% !important;
 }
-
+}
 
 @media screen and (max-width: 420px) {
 
@@ -215,6 +219,13 @@ nav .col-3{
     width: 90% !important;
     flex: none;
    
+}
+.postHeader{
+    width: 85% !important;
+    flex: none;
+}
+.postHeader+form{
+    width: 10% !important;
 }
 }
 

@@ -76,10 +76,16 @@ def searchFriends(req):
 
 
 def searchPostByName(req):
+    print(req.POST['keyword'])
+
     posts=Post.objects.filter(user__first_name__startswith=req.POST['keyword'])
     
+    print("*"*60)
+    print(posts)
+    print("*"*60)
+
     
     context={
         'posts':posts
     }
-    return render(req, "dashboard/ajaxFriendSearch.html",context)
+    return render(req, "dashboard/ajaxPostSearch.html",context)

@@ -3,3 +3,4 @@ cffi==1.11.5
 Django==1.10
 pycparser==2.19
 six==1.11.0
+Pillow==5.3.0
