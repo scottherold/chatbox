@@ -46,8 +46,8 @@ def create(req):
     
 
 def update(req, user_id):
-
-    errors=User.objects.EditUser(req.POST,req.session["user_id"])
+    print(req.FILES)
+    errors=User.objects.EditUser(req.POST,req.session["user_id"],req.FILES)
 
     if len(errors) > 0:
         for error in errors:

@@ -10,7 +10,7 @@ NumericValue_REGEX=re.compile(r'^(?=.*?[0-9])')
 # Create your models here.
 
 class UserManager(models.Manager):
-    def validate(self, form):
+    def validate(self, form,image):
         errors = []
         if len(form['first_name']) < 3:
             errors.append('First name must be at least three characters long')
@@ -42,6 +42,8 @@ class UserManager(models.Manager):
     def create_user(self, user_data):
         pw_hash = bcrypt.hashpw(user_data['password'].encode(), bcrypt.gensalt()).decode()
 
+        user_image="image/defaultProfile.jpg"
+
         user = self.create(
             first_name=user_data['first_name'],
             last_name=user_data['last_name'],
@@ -50,7 +52,8 @@ class UserManager(models.Manager):
             pw_hash=pw_hash,
             birth_date=user_data['birth_date'],
             total_pokes=0,
-            description="I am ......"
+            description="I am ......",
+            profile=user_image
         )
         return user
 
@@ -68,7 +71,7 @@ class UserManager(models.Manager):
             errors.append("invalid email or password")
             return (False,errors)
 
-    def EditUser(self,form,user_id):
+    def EditUser(self,form,user_id,image):
         error=[]
         
         # checking it the password is being updated......
@@ -145,13 +148,19 @@ class UserManager(models.Manager):
             return(error)
         else:
             user=User.objects.get(id=user_id)
+            try:
+                user_image=image['image']
+                user.profile=user_image
+            except:
+                pass
+
             user.first_name=form['first_name']
             user.last_name=form['last_name']
             user.email=form['email']
             user.user_name=form['user_name']
             user.description=form['description']
             user.save()
-            print("infomation saved")
+            print("information saved")
             return(error)
 
 
@@ -164,6 +173,7 @@ class User(models.Model):
     birth_date = models.DateField()
     total_pokes = models.IntegerField()
     description=models.TextField()
+    profile = models.ImageField(default='defaultProfile.jpg', blank=True,upload_to='image/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
