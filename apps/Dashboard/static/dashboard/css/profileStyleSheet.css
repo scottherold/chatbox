@@ -132,6 +132,23 @@ body{
     .leftsection,.rightsection{
         color: black !important;
     }
+    .rightsection{
+        max-width: 95% !important;
+        flex: none;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+    .like{
+        color: black !important;
+    }
+    .rightsection .postLike{
+        width: 40% !important;
+        flex: none;
+    }
+    .rightsection .postInfo{
+        border-top: 1px solid rgb(223, 223, 223);
+        padding-top: 5px;
+    }
     .rightHeader{
         width: 90% !important;
         flex: none;

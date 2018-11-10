@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    {% comment %} <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script> {% endcomment %}
     
     {%load static%}
         <script src="{%static 'dashboard/script/dashboardScript.js'%}"></script>
         <link rel="stylesheet" href="{%static 'dashboard/css/stylesheet.css'%}">
+        
     {%block head%}{%endblock%}
 
 
@@ -20,20 +21,53 @@
 <body>
 
     <nav class="site-header sticky-top navbar navbar-expand-md navbar-dark bg-dark pb-2 pt-3">
-        <div class="col-9">
-            <a class="navbar-brand" href="{%url 'dashboard:homePage'%}"><i class="far fa-comment-alt"></i> ChatBox</a>
-            <a class="blog-header-logo btn btn-dark" href="{%url 'dashboard:homePage'%}">Dashboard</a>
-            <a class="blog-header-logo  ml-3 btn btn-dark" href="{%url 'dashboard:find_friends'%}">Find Friends</a>
-           
-        </div>
-        <div class="col-3 text-right">
-            <a class="text-white mr-4 btn btn-dark" href="{%url 'dashboard:profile' user_id=request.session.user_id%}"> <i class="fas fa-user-circle"></i></a>
-            <a class="text-white btn btn-dark" href="{%url 'users:logout'%}"> <span>Logout</span>  <i class=" ml-1 mr-2 fas fa-sign-out-alt"></i></a>
-        </div>
-    </nav>  
-
-
-
+       {% if SearchFriend %}
+            <div class="col-4">
+                <a class="navbar-brand" href="{%url 'dashboard:homePage'%}"><i class="far fa-comment-alt"></i> ChatBox</a>
+                <a class="blog-header-logo btn btn-dark" href="{%url 'dashboard:homePage'%}">Dashboard</a>
+                <a class="blog-header-logo  ml-3 btn btn-dark" href="{%url 'dashboard:find_friends'%}">Find Friends</a>
+            
+            </div>
+            <div class="col-4" id="content">
+                <div class="searchfield ml-4">
+                    <form id="searchPeopleForm" action="{%url 'dashboard:searchUsers'%}" class=" mt-2 mt-md-0">
+                        {% csrf_token %}
+                        <input class="form-control mr-sm-2 biginput" type="text" name="user_name" id="autocomplete" placeholder="Search People" >
+                    </form>
+                </div>
+                <div id="outputbox"></div>
+            </div>
+                
+            <div class="col-4 text-right">
+                <a class="text-white mr-5" href="{%url 'dashboard:profile' user_id=request.session.user_id%}">
+                    <img class="rounded-circle d-inline-block mr-2" src="..{{user.profile.url}}" alt="Generic placeholder image" width="40" height="40">
+                    <small>{{user.user_name}}</small>
+                </a>
+                <a class="text-white btn btn-dark" href="{%url 'users:logout'%}"> <span>Logout</span>  <i class=" ml-1 mr-2 fas fa-sign-out-alt"></i></a>
+            </div>
+        {%else%}
+            <div class="col-9">
+                <a class="navbar-brand" href="{%url 'dashboard:homePage'%}"><i class="far fa-comment-alt"></i> ChatBox</a>
+                <a class="blog-header-logo btn btn-dark" href="{%url 'dashboard:homePage'%}">Dashboard</a>
+                <a class="blog-header-logo  ml-3 btn btn-dark" href="{%url 'dashboard:find_friends'%}">Find Friends</a>
+            
+            </div>
+            <div class="col-3 text-right">
+                <a class="text-white mr-5" href="{%url 'dashboard:profile' user_id=request.session.user_id%}"> 
+                    {% if profile %}
+                    {% else %}
+                        <img class="rounded-circle d-inline-block mr-2" src=".{{user.profile.url}}" alt="Generic placeholder image" width="40" height="40">
+                        <small>{{user.user_name}}</small>
+                    {% endif %}
+                    
+                    
+                </a>
+                <a class="text-white btn btn-dark" href="{%url 'users:logout'%}"> <span>Logout</span>  <i class=" ml-1 mr-2 fas fa-sign-out-alt"></i></a>
+            </div>
+            
+        {% endif %}
+    </nav> 
+   
     
     {%block content%}{%endblock%}
 
@@ -46,7 +80,51 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
     <script>
-        // Search Freinds Ajax
+        //ajaxx for like button
+        //not done yet... need to work one ajax for like, post, comment...
+        /*$(".like").click(function(e){
+            e.preventDefault()
+            $.ajax({
+                method:"GET",
+                url:$(this).attr("href"),
+                success:function(response){
+                    console.log(response)
+                    //console.log($(this))
+
+                    $(this).closest("div.row").prevAll("div.postInfo").first().find("span.PostlikeCount").html(100);
+                }
+            });
+        });*/
+
+
+
+
+        $('#outputbox').hide();
+        //search for any user
+        $("#searchPeopleForm").keyup(function(e){
+            e.preventDefault();
+            var name=$("input[name=user_name]").val() ;
+
+            if(name.length >=2){
+                $.ajax({
+
+                    method:"POST",
+                    url:$("#searchPeopleForm").attr("action"),
+                    data:$("#searchPeopleForm").serialize(),
+                    success:function(response){
+                        $('#outputbox').html(response);
+                        $('#outputbox').slideDown();
+                    }
+                });
+            }else{
+                $('#outputbox').hide();
+            }          
+        });
+        $(".container").click(function(){
+            $('#outputbox').hide();
+        })
+  
+        // Search Friends Ajax
         $("#FindfriendForm").keyup(function(e){
             e.preventDefault()
             $.ajax({
@@ -54,7 +132,7 @@
                 url:$("#FindfriendForm").attr("action"),
                 data:$("#FindfriendForm").serialize(),
                 success:function(response){
-                    console.log("received response", response)
+
                     $("#friendBox").html(response);
                 }
             });
@@ -67,19 +145,31 @@
                 url:$("#findPost").attr("action"),
                 data:$("#findPost").serialize(),
                 success:function(response){
-                    console.log("received response", response)
+
                     $("#postContent").html(response);
                     PostBoxEffect();
                 }
             });
         });
+
+
         function PostBoxEffect(){
-            $(".commentBox").hide();
+            $(".allComments").hide();
     
             $(".viewAll").click(function (e) {
                 e.stopImmediatePropagation()
+
+                if ($(window).scrollTop()>=150){
+                    $([document.documentElement, document.body]).animate({
+                        scrollTop: $(this).offset().top
+                    }, 1000);
+                }
+                
+                
                 console.log("view all commment is click")
-                $(this).parent().siblings('div.commentBox').slideToggle();
+                $(this).parent().siblings('div.allComments').slideToggle();
+                
+               
             })
         
             $(".postingButton").hide();
@@ -87,6 +177,11 @@
             $(".comment").click(function (e) {
                 console.log(" commment is click")
                 e.stopImmediatePropagation()
+                if ($(window).scrollTop()>=150){
+                    $([document.documentElement, document.body]).animate({
+                        scrollTop: $(this).offset().top
+                    }, 1000);
+                }
                 $(this).parent().siblings("div.postingButton").slideToggle();
     
             })
@@ -96,6 +191,11 @@
             $(".reply").click(function (e) {
                 console.log(" reply is click")
                 e.stopImmediatePropagation()
+                if ($(window).scrollTop()>=150){
+                    $([document.documentElement, document.body]).animate({
+                        scrollTop: $(this).offset().top
+                    }, 1000);
+                }
                 $(this).parent().parent().next().slideToggle();
     
             })
@@ -105,6 +205,11 @@
             $(".Allreply").click(function (e) {
                 console.log(" view all reply is click")
                 e.stopImmediatePropagation()
+                if ($(window).scrollTop()>=150){
+                    $([document.documentElement, document.body]).animate({
+                        scrollTop: $(this).offset().top
+                    }, 1000);
+                }
                 $(this).parent().parent().parent().siblings("div.replyBox").slideToggle();
     
             })

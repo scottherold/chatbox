@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<title>1942 Battle</title>
+	{%load static%}
+    <link rel="stylesheet" href="{%static 'game/css/the1942.css'%}">
+</head>
+<body>
+
+	<div id='container'>
+		<div id='hero'></div>
+		<div id='enemies'></div>
+		<div id='bullets' ></div>
+		<div id="explode" ></div>	
+	</div>
+
+	<div id='score'>0</div>
+	<div id="scoreincrement"></div>
+
+	{% comment %} <form id="backButton" action="{%url 'games:gameScore'%}" method="post">
+		{% csrf_token %}
+		<button type="submit" class="backBtn">Go Back</button>
+	</form>	 {% endcomment %}
+	<a href="{%url 'dashboard:homePage'%}" class="backBtn">Go Back</a>
+	
+<script>
+
+	let dead=false;
+
+	let hero={x:600,y:500}
+	let enemy=[
+		{x:300,y:1,type:1,score:0,health:0},{x:900,y:100,type:1,score:0,health:0},
+
+		{x:600,y:20,type:0,score:0,health:0},{x:800,y:10,type:0,score:0,health:0},
+
+		{x:9000,y:0,type:1,score:0,health:0},{x:900,y:10,type:0,score:0,health:0},
+
+		{x:200,y:0,type:0,score:0,health:0},{x:9000,y:100,type:0,score:0,health:0}
+	];
+
+	let bullets=[];
+	// let explosion=[];
+	let chosenOne=1;
+	let totalScore=0;
+	let explosion={x:0, y:0};
+	
+	//---------------Function---------------------
+
+	function moveHero() {
+		document.getElementById("hero").style.top=hero.y+"px";
+		document.getElementById("hero").style.left=hero.x+"px";
+	}
+
+	function configureEnemy(){
+
+		for (let i = 0; i < enemy.length; i++) {
+			
+			if (enemy[i].y==1 || enemy[i].y<30) {
+			
+				if (enemy[i].type==0) {
+					
+					enemy[i].score=20;
+					enemy[i].health=2;
+				}
+				if (enemy[i].type==1) {
+			
+					enemy[i].score=10;
+					enemy[i].health=1;
+				}
+				if (enemy[i].type==2) {
+			
+					enemy[i].score=30;
+					enemy[i].health=3;
+				}
+				if (enemy[i].type==3) {
+					
+					enemy[i].score=100;
+					enemy[i].health=13;
+				}
+			
+			}
+			
+			
+
+		}
+	}
+	function moveEnemy(){
+
+		for (let i = 0; i < enemy.length; i++) {
+			
+			enemy[i].y+= 10
+			if (enemy[i].y>570) {
+				//generate a random number type for the enemy when they cross the screen...
+				chosenOne=  Math.round(Math.random()*3);
+				enemy[i].type=chosenOne;
+				console.log(chosenOne);
+
+				enemy[i].y=1;
+				enemy[i].x=Math.round(Math.random()*900); 
+				
+				
+
+			}
+
+		}
+	}
+	
+	function displayEnemy() {
+
+		let output="";
+		for (let i = 0; i < enemy.length; i++) {
+			if (enemy[i].type==0) {
+				x=0;
+			}
+			if (enemy[i].type==1) {
+				x=1;
+			}
+			if (enemy[i].type==2) {
+				x=2;	
+			}
+			if (enemy[i].type==3) {
+				x=3;
+			}
+			output+="<div class='enemy"+x+"' style='top:"+enemy[i].y+"px; left:"+enemy[i].x+"px;'></div>";
+			
+		}
+		
+		document.getElementById("enemies").innerHTML=output;
+		
+	}
+
+	function displayBullets() {
+
+		let output="";
+		for (let i = 0; i < bullets.length; i++) {
+			
+			output+="<div class='bullet' style='top:"+bullets[i].y+"px; left:"+bullets[i].x+"px;'></div>";
+			
+		}
+		document.getElementById("bullets").innerHTML=output;
+	} 
+
+	function moveBullets() {
+
+		for (let i = 0; i < bullets.length; i++) {
+			
+			bullets[i].y-=30;
+
+			if (bullets[i].y<0) {
+				bullets[i]=bullets[bullets.length-1];
+				bullets.pop();
+			}
+		}
+	}
+	
+
+	//explosion is being remove in this function...........
+	function BulletCollisionD() {
+		
+		for (let i = 0; i < bullets.length; i++) {
+			
+			for (let j = 0; j < enemy.length; j++) {
+			
+				if (Math.abs(bullets[i].y-enemy[j].y)<20 && Math.abs(bullets[i].x-enemy[j].x)<30) {
+				
+					// explosion.push({x:bullets[i].x-15, y:bullets[i].y-20});
+					
+					displayExplosion(bullets[i].x-15,bullets[i].y-20);
+					
+					setTimeout(hideExplosion,1000);
+					// explosion.splice(0,1);
+					
+					enemy[j].health-=1;
+
+					if (enemy[j].health<=0) {
+						
+						enemy[j].y=1;
+						enemy[j].x= Math.random()*900;
+
+						totalScore+=enemy[j].score;
+
+						scoreEffects();
+						
+						document.getElementById("scoreincrement").innerHTML="+"+enemy[j].score;
+						
+						setTimeout(TurnOffIncrementDisplay, 1000);
+
+						if (enemy[j].type==0) {
+							enemy[j].health=2;
+						}
+						if (enemy[j].type==1) {
+							enemy[j].health=1;
+						}
+						if (enemy[j].type==2) {		
+							enemy[j].health=3;
+						}
+						if (enemy[j].type==3) {
+							enemy[j].health=13;
+						}
+					}
+					
+				}
+				
+			}
+			
+		}//end of for loop.....
+	}
+	function heroCollsionD() {
+
+		for (let j = 0; j < enemy.length; j++) {
+		
+			if (Math.abs(hero.y-enemy[j].y)<=3 && Math.abs(hero.x-enemy[j].x)<=5){
+				
+				dead=true;
+				totalScore-=500;
+				console.log("dead");
+				scoreEffects();
+			}
+			
+		}
+			
+		
+	}
+	
+	//Explosion is being display here.............
+	function displayExplosion(loX,loY){
+		document.getElementById("explode").style.display="block";
+
+		let output="";
+		explosion.y=loY;
+		explosion.x=loX;
+
+		// for (let i = 0; i < explosion.length; i++) {
+			
+		// 	output+="<div class='explosion' style='top:"+explosion[i].y+"px; left:"+explosion[i].x+"px;'></div>";
+			
+		// } 
+		output+="<div class='explosion' style='top:"+explosion.y+"px; left:"+explosion.x+"px;'></div>";
+		document.getElementById("explode").innerHTML=output;
+
+	}
+	function hideExplosion() {
+		
+		document.getElementById("explode").style.display="none";
+	
+	}
+	
+	
+	function displayScore() {
+		document.getElementById("score").innerHTML=totalScore;
+
+		if (totalScore<0) {
+			document.getElementById("score").style.color="rgb(255,0,0)";
+		}else{document.getElementById("score").style.color="rgb(0   ,0,0)";}
+		
+	}
+	
+	function scoreEffects() {
+
+		document.getElementById("score").style.fontWeight="bold";
+		document.getElementById("scoreincrement").style.display="block";
+		
+		if (dead==true) {
+
+			document.getElementById("scoreincrement").innerHTML="-"+500
+			document.getElementById("scoreincrement").style.color="rgb(255,0,0)";
+						
+			setTimeout(TurnOffIncrementDisplay, 1000);
+				
+		}
+	}
+
+	function TurnOffIncrementDisplay(){
+		document.getElementById("scoreincrement").style.color="rgb(255, 215, 0)";
+		document.getElementById("scoreincrement").style.display="none";
+
+	}
+
+	function gameLoop() {
+		
+		moveHero();
+		configureEnemy();
+		moveEnemy(); 	
+		displayEnemy();
+		moveBullets();
+		displayBullets();
+		BulletCollisionD();
+		heroCollsionD();
+		displayScore();
+	
+	}
+	
+	//----------------End Of Function---------------------------------
+	
+	setInterval(gameLoop, 100);
+	
+
+	document.onkeydown=function(e) {
+  
+		
+		if (e.keyCode==40 && hero.y<510) {//down 
+
+			hero.y+=20;
+			
+		}
+		else if (e.keyCode==38 && hero.y>0) {//up       
+			hero.y-=20;
+			
+		}
+		else if (e.keyCode==37 && hero.x>30) {//left   
+
+			hero.x-=20;
+		}
+		else if (e.keyCode==39 && hero.x<960) {//right 
+			
+		hero.x+=20;
+		
+		}
+		if (e.keyCode==32) {
+			bullets.push({x:hero.x+5, y:hero.y-12});
+			
+		}
+		
+		if (e.keyCode==32) {
+				dead=false;
+			}
+		moveHero();
+	}
+
+	/*$("#backButton").submit(function(e){
+		console.log("clikededed")
+		e.preventDefault()
+		$.ajax({
+			method:"POST",
+			url:$("#backButton").attr("action"),
+			data:{
+				'csrfmiddlewaretoken': '{{csrf_token}}',
+				'scores':totalScore
+			}
+			
+
+		})
+	})*/
+</script>
+
+</body>
+</html>

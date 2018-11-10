@@ -103,7 +103,7 @@
                     <h5 class="font-weight-light ml-3 "><i class="fas fa-users"></i> Friends</h5>
                     <hr>
                     {% ifequal friends.count 0%}
-                        <small class="ml-2">You have not friend yet</small>
+                        <small class="ml-2">No friends yet</small>
                     {% endifequal %}
 
                     {% for index in friends %}
@@ -118,7 +118,7 @@
                 </div>
             </div>
 
-            <div class="rightsection col-9 bg-light pt-4">
+            <div class="rightsection col-9  pt-4">
 
                 {% if messages %}
                     <ul class=" list-inline messages text-{{request.session.messageColor}}">
@@ -127,7 +127,14 @@
                         {% endfor %}
                     </ul>
                 {% endif %}
-        
+                {% ifequal user.id request.session.user_id %}
+                    <h6 class="font-weight-light mb-3">Your Posts</h6>
+                
+                {% else %}
+                    <h6 class="font-weight-light mb-3">{{user.user_name}} Posts</h6>
+                {% endifequal %}
+                <hr>
+                <div id="myposts"></div>
             </div>
 
 
@@ -248,6 +255,21 @@
             customText.innerHTML="No image Chosen yet !"
         }
     });
+    
+    $.ajax({
+        
+        method:"GET",
+        url:"{%url 'dashboard:FetchMyPost' %}",
+        data:{
+            user_id:"{{user.id}}"
+        },
+        success:function(response){
+            $("#myposts").html(response)
+            console.log(response)
+            PostBoxEffect();
+        }
+        
+    })
 </script>
 
 {%endblock content%}

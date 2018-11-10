@@ -9,12 +9,23 @@ nav a .fa-user-circle{
     font-size: 18px;
 
 }
-
+body{
+    padding-bottom:100px;
+    
+}
 /* miscellaneous */
 .miscellaneous{
-    height: 500px;
+    height: 340px;
     width: 210px;
+}
 
+.gradient-bg{
+    background-image: linear-gradient(to bottom left, rgb(224, 224, 224), rgb(247, 247, 247));
+}
+.post{
+    background-color: rgb(250, 250, 250);
+    border-radius: 5px;
+  
 }
 
 
@@ -52,6 +63,10 @@ nav a .fa-user-circle{
 
 }
 /* commentBox */
+.allComments{
+    max-height: 400px;
+    overflow: scroll;
+}
 .commentBox div, .replyBox div{
     vertical-align: top;
     margin-bottom: 0px;
@@ -103,6 +118,7 @@ nav a .fa-user-circle{
     height: 500px;
     width: 250px;
     overflow: scroll;
+    border-radius: 5px;
 }
 .friendList>div{
     min-height: 340px;
@@ -110,6 +126,8 @@ nav a .fa-user-circle{
 .confirmFriend{
     height:40px; 
 }
+
+
 
 
 
@@ -228,5 +246,23 @@ nav .col-3{
     width: 10% !important;
 }
 }
+#outputbox{
+    background-color: rgba(248, 248, 248, 0.877);
+    min-height: 100px;
+    width: 365px;
+    margin-left: 26px;
+    position: absolute;
+    border: 1px solid rgb(167, 167, 167);
+    border-radius: 5px;
+    padding: 5px;
+    padding-top: 20px;
+}
 
-
+.userResult:hover{
+    background-color: rgb(233, 233, 233);
+    text-decoration: none !important;
+    color: white !important;
+}
+a:hover{
+    text-decoration: none !important;
+}
