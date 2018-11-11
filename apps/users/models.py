@@ -6,37 +6,89 @@ import re
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 UpperCasePassword_REGEX=re.compile(r'^(?=.*?[A-Z])')
 NumericValue_REGEX=re.compile(r'^(?=.*?[0-9])')
-
+date_REGEX=re.compile(r'^(194[0-9]|195[0-9]|196[0-9]|197[0-9]|198[0-9]|199[0-9])[-](0?[1-9]|1[012])[-](0?[1-9]|[12][0-9]|3[01])$')
 # Create your models here.
 
 class UserManager(models.Manager):
     def validate(self, form):
         errors = []
-        if len(form['first_name']) < 3:
-            errors.append('First name must be at least three characters long')
-        if len(form['last_name']) < 3:
-            errors.append('Last name must be at least three characters long')
-        try:
-            self.get(user_name=form['user_name'])
-            errors.append('Username already taken, please choose a different one!')
-        except:
-            pass
-        if len(form['user_name']) < 3:
-            errors.append('User name must be at least three characters long')
-        if not EMAIL_REGEX.match(form['email']):
-            errors.append('Email address must be valid') 
-        try:
-            self.get(email=form['email'])
-            errors.append('Email address already in use, please choose a different one!')
-        except:
-            pass
-        if len(form['password']) < 8:
-            errors.append('Password must be at least 8 characters long')
-        if form['password'] != form['password_confirm']:
-            errors.append('Password confirmation must match password')
+        # if len(form['first_name']) < 3:
+        #     errors.append('First name must be at least three characters long')
+        # if len(form['last_name']) < 3:
+        #     errors.append('Last name must be at least three characters long')
+        # try:
+        #     self.get(user_name=form['user_name'])
+        #     errors.append('Username already taken, please choose a different one!')
+        # except:
+        #     pass
+        # if len(form['user_name']) < 3:
+        #     errors.append('User name must be at least three characters long')
+        # if not EMAIL_REGEX.match(form['email']):
+        #     errors.append('Email address must be valid') 
+        # try:
+        #     self.get(email=form['email'])
+        #     errors.append('Email address already in use, please choose a different one!')
+        # except:
+        #     pass
+        # if len(form['password']) < 8:
+        #     errors.append('Password must be at least 8 characters long')
+        # if form['password'] != form['password_confirm']:
+        #     errors.append('Password confirmation must match password')
 
-        if len(form['birth_date'])<1:
-            errors.append('Date of birth must be selected')
+        # if len(form['birth_date'])<1:
+        #     errors.append('Date of birth must be selected')
+         # check if email already taken
+        if self.filter(email=form['email']):
+            errors.append("Email already used")
+            return (False,errors)
+
+        # first name validation
+        if len(form['first_name'])<1:
+            errors.append("First name cannot be blank!!")
+        if form['first_name'].isalpha()==False:
+            errors.append("Only letters in the first name")
+        if len(form['first_name'])<2:
+            errors.append("First name should be atleat 2 characters")
+
+        # last name validation
+        if len(form['last_name'])<1:
+            errors.append("last name cannot be blank!!")
+        if form['last_name'].isalpha()==False:
+            errors.append("Only letters in the last name")
+        if len(form['last_name'])<2:
+            errors.append("last name should be atleat 2 characters")
+
+        # User name validation
+        if len(form['user_name'])<1:
+            errors.append("User name cannot be blank!!")
+        if len(form['user_name'])<2:
+            errors.append("User name should be atleat 2 characters")
+
+        # email validation
+        if len(form['email']) < 1:
+            errors.append("Email cannot be blank!")
+        if not EMAIL_REGEX.match(form['email']):
+            errors.append("Invalid Email Address!")
+            
+        # birthday validation
+        if not date_REGEX.match(form['birth_date']) :
+            errors.append("invalid date")
+
+
+        #password validation
+        if len(form['password'])<1:
+            errors.append("please provide a password")
+        if len(form['password'])<8:
+            errors.append("password is too short. Should be atleast 8 characters")
+        if not UpperCasePassword_REGEX.match(form['password']) :
+            errors.append("at least one uppercase letter")
+        if not NumericValue_REGEX.match(form['password']) :
+            errors.append("at least one number")
+
+        # confirm password validation
+        if form["password_confirm"]!=form["password"]:
+            errors.append("Password does not match")
+
         return errors
 
     def create_user(self, user_data):

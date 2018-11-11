@@ -15,7 +15,7 @@
 
     <div class="container col-10 mt-5">
 
-        <div class="py-5 background text-white mb-3" style="background-image: url('{%static "dashboard/images/profileBG.jpg"%}');">
+        <div class="py-5 background text-white mb-3">
 
             <div class="text-left rightHeader d-inline-block">
                 <h2 class="ml-3 font-weight-light">{{user.user_name}}</h2>
@@ -62,7 +62,7 @@
 
         </div>
 
-        <section class="lowerSection col-11 ml-4 ">
+        <section class="lowerSection col-12 ml-2">
 
             <div class="leftsection">
                 <div class="bg-light shadow">
@@ -118,7 +118,7 @@
                 </div>
             </div>
 
-            <div class="rightsection col-9  pt-4">
+            <div class="rightsection col-8 pt-4">
 
                 {% if messages %}
                     <ul class=" list-inline messages text-{{request.session.messageColor}}">
@@ -134,7 +134,7 @@
                     <h6 class="font-weight-light mb-3">{{user.user_name}} Posts</h6>
                 {% endifequal %}
                 <hr>
-                <div id="myposts"></div>
+                <div id="postContent"></div>
             </div>
 
 
@@ -264,12 +264,13 @@
             user_id:"{{user.id}}"
         },
         success:function(response){
-            $("#myposts").html(response)
-            console.log(response)
+            $("#postContent").html(response)
+            
             PostBoxEffect();
         }
         
     })
+
 </script>
 
 {%endblock content%}

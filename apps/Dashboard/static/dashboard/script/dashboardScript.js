@@ -34,6 +34,43 @@ $(document).ready(function () {
         } 
         
     );
+
+     //ajaxx for like button for post
+
+     $("#postContent").on('click','.like',function(e){
+        e.preventDefault()
+        var totalLikes=0;
+        $.ajax({
+            method:"GET",
+            url:$(this).attr("href"),
+            success:function(response){
+                totalLikes=response.total_likes
+            },
+            async:false
+            
+        });
+        
+        $(this).closest("div.row").prevAll("div.postInfo").first().find("span.PostlikeCount").html(totalLikes);
+    });
+
+
+    //ajaxx for like button for comment
+
+    $("#postContent").on('click','.comment_like',function(e){
+        e.preventDefault()
+        var totalLikes=0;
+        $.ajax({
+            method:"GET",
+            url:$(this).attr("href"),
+            success:function(response){
+                totalLikes=response.total_likes
+            },
+            async:false
+            
+        });
+        
+        $(this).parent("span").nextAll(".commentLike").children(".commentLikeCount") .html(totalLikes);
+    });
     
     
 });

@@ -13,10 +13,14 @@ body{
     padding-bottom:100px;
     
 }
+.container{
+    max-width: 1500px;
+}
 /* miscellaneous */
 .miscellaneous{
     height: 340px;
     width: 210px;
+    border-radius: 5px;
 }
 
 .gradient-bg{
@@ -117,6 +121,7 @@ body{
 .friendList{
     height: 500px;
     width: 250px;
+    max-width: 260px;
     overflow: scroll;
     border-radius: 5px;
 }
@@ -160,11 +165,12 @@ body{
 
 @media screen and (max-width: 420px) {
 
-body{
-    background-color: rgb(56, 56, 56);
-    color: white;
+.gradient-bg{
+    background-image: linear-gradient(to bottom left, rgb(44, 44, 44), rgb(41, 41, 41));
+    color: black !important;
     padding-bottom: 40px;
 }
+
 .miscellaneous{
     display: none;
 }
@@ -193,6 +199,7 @@ body{
 .writePost{
     padding: 3px !important;
     font-size: 13px;
+    color: rgb(185, 185, 185);
 }
 
 .like{
@@ -245,11 +252,15 @@ nav .col-3{
 .postHeader+form{
     width: 10% !important;
 }
+
+
 }
+
+/* autocomplete Search Ajax... */
 #outputbox{
     background-color: rgba(248, 248, 248, 0.877);
     min-height: 100px;
-    width: 365px;
+    width: 350px;
     margin-left: 26px;
     position: absolute;
     border: 1px solid rgb(167, 167, 167);

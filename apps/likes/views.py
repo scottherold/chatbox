@@ -16,16 +16,18 @@ def like_Post(req,post_id,location):
         print("the user can like the Post<<<<<<------")
         Like_Post.objects.create(
             userWhoLiked=User.objects.get(id=req.session['user_id']),
-            postLiked=Post.objects.get(id=post_id))
+            postLiked=Post.objects.get(id=post_id)
+        )
     
     # That's for ajax like feature
-    # total_likes=Post.objects.get(id=post_id).likePost.all().count()
-    # return JsonResponse({'total_likes': total_likes})
+    total_likes=Post.objects.get(id=post_id).likePost.all().count()
+    return JsonResponse({'total_likes': total_likes})
 
-    if location=="profile":
-        return redirect("dashboard:profile", user_id=req.session['user_id'])
-    elif location=="homePage":
-        return redirect("dashboard:homePage")
+    #Like button with no ajax
+    # if location=="profile":
+    #     return redirect("dashboard:profile", user_id=req.session['user_id'])
+    # elif location=="homePage":
+    #     return redirect("dashboard:homePage")
 
 def like_Comment(req,comment_id,location):
 
@@ -39,10 +41,17 @@ def like_Comment(req,comment_id,location):
             userWhoLiked=User.objects.get(id=req.session['user_id']),
             commentLiked=Comment.objects.get(id=comment_id))
 
-    if location=="profile":
-        return redirect("dashboard:profile", user_id=req.session['user_id'])
-    elif location=="homePage":
-        return redirect("dashboard:homePage")
+    # That's for ajax like feature
+    total_likes=Comment.objects.get(id=comment_id).likeComment.all().count()
+    return JsonResponse({'total_likes': total_likes})
+
+
+    # if location=="profile":
+    #     return redirect("dashboard:profile", user_id=req.session['user_id'])
+    # elif location=="homePage":
+    #     return redirect("dashboard:homePage")
+
+
 
 def index(req):
     pass

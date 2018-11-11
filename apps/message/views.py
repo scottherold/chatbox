@@ -31,7 +31,8 @@ def createComment(request,post_id):
         for error in errors:
             request.session['messageColor']="danger"
             messages.error(request, error)
-    
+
+
     if request.POST['location']=="profile":
         return redirect("dashboard:profile", user_id=request.session['user_id'])
     elif request.POST['location']=="homePage":

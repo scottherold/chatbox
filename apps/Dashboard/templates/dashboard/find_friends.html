@@ -26,11 +26,11 @@
                 <div class=" row">
                     <div class="col-8">
                         <img class="rounded-circle d-inline-block mr-1 mb-2" src="..{{index.profile.url}}" alt="Generic placeholder image" width="60" height="60">
-                        <a href="{%url 'dashboard:profile' user_id=index.id%}" class="col-8 text-dark">
+                        <a href="{%url 'dashboard:profile' user_id=index.id%}" class="col-7 text-dark">
                             <h6 class="d-inline">{{index.first_name}} {{index.last_name}}</h6>
                         </a>
                     </div>
-                    <form action="{%url 'friends:create' user_id=index.id%}" method="post" class="confirmFriend">
+                    <form action="{%url 'friends:create' user_id=index.id%}" method="post" class="confirmFriend col-4">
                         {% csrf_token %}
                         <input type="hidden" id="friend_user_id" name="friend_user_id" value="{{ index.id }}">
                         <input type="hidden" id="user_id" name="user_id" value="{{ request.session.user_id }}">
@@ -63,8 +63,6 @@
             {% endfor %}
         </div>
     </div>
-
-
 
 
 

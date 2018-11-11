@@ -26,7 +26,7 @@
         <div class="row">
 
             {% comment %} I do not know what to put here Yet..... {% endcomment %}
-            <section class="miscellaneous ml-2 mr-4 bg-light">
+            <section class="miscellaneous ml-1 bg-light mr-2">
                 <legend class="p-2 mb-3 shadow text-center bg-dark text-white">Games <i class="fas fa-gamepad"></i></legend>
                 
                 <div class=" ml-1 mb-4">
@@ -42,12 +42,12 @@
             {% comment %} This is where the messages will appear {% endcomment %}
             <section class="messageBox col-6 ml-3 mr-3">
                 <div class="row">
-                    <form id="findPost" action="{%url 'dashboard:searchPostByName'%}" method="post" class="form-inline mt-2 mt-md-0 col-10">
+                    <form id="findPost" action="{%url 'dashboard:searchPostByName'%}" method="post" class="form-inline mt-2 mt-md-0 col-9">
                         {% csrf_token %}
                         <input class="form-control mr-sm-2" type="text" name="keyword" placeholder="Search" aria-label="Search">
                         {% comment %} <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> {% endcomment %}
                     </form>
-                    <button data-toggle="modal" data-target="#CreatePost" class="btn btn-outline-dark font-weight-light p-2 writePost">Write Post</button>
+                    <button data-toggle="modal" data-target="#CreatePost" class="btn btn-outline-dark font-weight-light p-2 writePost col-2">Write Post</button>
                 </div>
                 <hr>
                 <div class="content" id="postContent">
@@ -114,22 +114,18 @@
                                     <div class="commentBox ml-2">
                     
                                         <div>
-                                            <img class="rounded-circle d-inline-block mr-3" src=".{{comment.user.profile.url}}" alt="Generic placeholder image" width="40" height="40">
+                                            <img class="rounded-circle d-inline-block mr-1" src=".{{comment.user.profile.url}}" alt="Generic placeholder image" width="40" height="40">
                                             <div class="d-inline-block ">
                                                 <p class="mb-0 bg-light p-2 rounded ">
-                                                    <span class="font-weight-bold mr-2 ml-1">{{comment.user.first_name}} {{comment.user.last_name}}</span> {{comment.content}}
+                                                    <span class="font-weight-bold mr-3">{{comment.user.first_name}} {{comment.user.last_name}}</span> {{comment.content}}
                                                 </p>
                                                 <div class="mt-2 row commentText">
                                                     <span class="col-5 ml-1">
-                                                        {% if profile_page %}
-                                                            <a href="{%url 'likes:like_Comment' comment_id=comment.id location='profile'%}" class="d-inline-block comment_like">
-                                                                <span class=""><i class="far fa-heart"></i> Like</span>
-                                                            </a>
-                                                        {% else %}
-                                                            <a href="{%url 'likes:like_Comment' comment_id=comment.id location='homePage'%}" class="d-inline-block comment_like">
-                                                                <span class=""><i class="far fa-heart"></i> Like</span>
-                                                            </a>
-                                                        {% endif %}
+
+                                                        <a href="{%url 'likes:like_Comment' comment_id=comment.id location='homePage'%}" class="d-inline-block comment_like">
+                                                            <span class=""><i class="far fa-heart"></i> Like</span>
+                                                        </a>
+
                                                     </span>
                                                     {% if  comment.reply.all.count%}
                                                         <small class="font-weight-light mr-3 Allreply"><a href= "#">view all comment</a></small>
@@ -139,7 +135,7 @@
                                                     {% endif %}
                                                    
                                                     
-                                                    <small class="reply pt-0 pb-0 ml-2"> <i class="far fa-thumbs-up"></i> {{comment.likeComment.all.count}}</small>
+                                                    <small class="reply pt-0 pb-0 ml-2 commentLike"> <i class="far fa-thumbs-up"></i> <span class="commentLikeCount">{{comment.likeComment.all.count}}</span></small>
                                                 </div>
                                             </div>
 
@@ -150,6 +146,7 @@
                                                     <input class="form-control" type="text" name="reply" placeholder="Reply...">
                                                 </div>
                                                 <input type="hidden" name="reply_id" value="{{comment.id}}">
+                                                <input type="hidden" name="location" value="homePage">
                                                 <button type="submit" class="btn btn-sm btn-outline-primary  ml-1 ">Reply</button>
                                                 
                                             </form>
@@ -159,9 +156,12 @@
                                         {% for reply in comment.reply.all %}
                                             <div class="replyBox ml-5">
                                                 <div>
-                                                    <img class="rounded-circle d-inline-block mr-3" src=".{{reply.user.profile.url}}" alt="Generic placeholder image" width="40" height="40">
+                                                    <img class="rounded-circle d-inline-block mr-1" src=".{{reply.user.profile.url}}" alt="Generic placeholder image" width="40" height="40">
                                                     <div class="d-inline-block">
-                                                        <p class="mb-0 bg-light p-2 rounded ">{{reply.content}}</p>
+                                                        <p class="mb-0 bg-light p-2 rounded ">
+                                                            <span class="font-weight-bold mr-3 ">{{reply.user.first_name}} {{reply.user.last_name}}</span> {{reply.content}}
+
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -180,6 +180,7 @@
                                         <input class="form-control mr-sm-2 form-inline" type="text" name="comment" placeholder="Comment...">
                                     </div>
                                     <input type="hidden" name="reply_id" value="0">
+                                    <input type="hidden" name="location" value="homePage">
                                     <button type="submit" class="btn btn-sm btn-outline-primary pl-4 pr-4 ml-1 ">Comment</button>
                                     
                                 </form>
@@ -190,7 +191,7 @@
                 
             </section>
              {% comment %} This where you can see your friends list and search for a specific one {% endcomment %}
-            <section class="friendList  bg-light text-white ml-5">
+            <section class="friendList  bg-light text-white">
                 <legend class="p-2 mb-3 shadow text-center bg-dark"><i class="fas fa-users"></i> Friends</legend>
                 <div class="mb-4" id="friendBox">
                     {% for index in friends %}
