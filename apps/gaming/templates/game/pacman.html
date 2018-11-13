@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   
+    <title>Pacman</title>
+    {%load static%}
+    <link rel="stylesheet" href="{%static 'game/css/pacman.css'%}">
+</head>
+<body>
+    <div class="wrapper">
+        <div id="world"></div>
+
+        <div id="ghost1"  style="background-image:url('{%static 'game/images/ghost1_pacman.gif'%}')"></div>
+
+        <div id="pacman"  style="background-image:url('{%static 'game/images/pacman.gif'%}')"></div>
+        
+        <div id="score"></div>
+
+        <div id="losePoint"></div>
+        <div class="backBtn">
+            <a href="{%url 'dashboard:homePage'%}"><h6>Close Game</h6></a>
+        </div>
+
+        <div id="gameOverSign">
+            <h4>GAME OVER</h4>
+            <p>Press SpaceBar to Restart</p>
+        </div>
+
+    </div>
+    
+
+
+    <script>
+    
+        let world=[
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,1,2,2,2,2,2,0,1,2,2,2,1,0,2,5,2,2,1],
+            [1,2,2,1,1,2,5,2,6,1,2,2,2,2,2,2,2,2,1,1],
+            [1,2,2,0,1,2,2,0,4,2,2,2,1,1,1,2,2,4,2,1],
+            [1,4,0,2,0,2,1,2,2,1,2,1,1,1,2,2,1,1,2,1],
+            [1,2,2,2,5,2,1,2,2,0,4,2,2,2,2,6,2,2,2,1],
+            [1,2,5,2,1,0,2,2,0,1,5,0,2,2,2,1,1,0,1,1],
+            [1,2,2,2,1,1,1,2,2,2,1,2,1,2,2,5,2,2,5,1],
+            [1,2,0,0,0,2,1,0,2,0,2,6,1,2,2,2,2,2,2,1],
+            [1,2,2,6,2,2,2,2,2,1,2,1,1,1,2,2,5,4,6,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        ]
+
+
+        function displayWorld() {
+            let output=" ";
+            for (let i = 0; i < world.length; i++) {
+
+                output+="<div class='row'>"
+
+                for (let j = 0; j < world[i].length; j++) {
+
+                    if (world[i][j]==1) {
+                        output+="<div class='brick'></div>";
+                    }
+                    else if (world[i][j]==2) {
+                        output+="<div class='coin' style=background-image:url('{%static 'game/images/coin.png'%}')></div>";
+                    }
+                    if (world[i][j]==0) {
+                        output+="<div class='empty'></div>";
+                    }
+                    if (world[i][j]==4) {
+                        output+="<div class='star' style=background-image:url('{%static 'game/images/star_pacman.png'%}')></div>";
+                    }
+                    if (world[i][j]==5) {
+                        output+="<div class='fire' style=background-image:url('{%static 'game/images/fire_pacman.gif'%}')></div>";
+                    }
+                    if (world[i][j]==6) {
+                        output+="<div id='ghost1' style=background-image:url('{%static 'game/images/ghost1_pacman.gif'%}')></div>";
+                    }
+                    
+                }              
+                output+="</div>";
+            }
+
+            document.getElementById("world").innerHTML=output;
+        }
+
+        displayWorld();
+
+
+        let score=0;
+        let losePoint=150;
+        let pacMan={x:1,y:1}
+        let dead=false;
+        
+        let accessPacman=document.getElementById("pacman").style;
+        let accessScore=document.getElementById("score").style;
+        let accessEnemy=document.getElementById("ghost1").style;
+        let accessGameover=document.getElementById("gameOverSign").style;
+
+        accessGameover.display="none";
+        
+      
+        movePacman(); 
+       
+        document.onkeydown=function(e) {
+
+            if(dead!=true){
+               
+                if (e.keyCode==40 && world[pacMan.y+1][pacMan.x]!=1) {//down 
+
+                    pacMan.y++;  
+                    accessPacman.transform="rotate(90deg)";
+                }
+                else if (e.keyCode==38 && world[pacMan.y-1][pacMan.x]!=1) {//up       
+                
+                    pacMan.y--; 
+                    accessPacman.transform="rotate(270deg)";
+                }
+                else if (e.keyCode==37 && world[pacMan.y][pacMan.x-1]!=1) {//left    
+                    
+                    pacMan.x--;  
+                    accessPacman.transform="scaleX(-1)";
+                }
+                else if (e.keyCode==39 && world[pacMan.y][pacMan.x+1]!=1) {//right 
+                
+                    pacMan.x++;  
+                    accessPacman.transform="scaleX(1)";
+                }
+
+                // ............Score Counter.............
+
+                if (world[pacMan.y][pacMan.x]==2) {
+
+                    world[pacMan.y][pacMan.x]=0;
+                    score+=20;
+                    displayScore();
+                    
+                }
+                if (world[pacMan.y][pacMan.x]==4) {
+
+                    world[pacMan.y][pacMan.x]=0;
+                    score+=100;
+                    displayScore();
+                    accessScore.fontSize=25+"px";
+                    accessScore.color=" rgb(255,215,0)";
+                    setTimeout(displayScore, 500);
+                    
+                    
+                }
+                if (world[pacMan.y][pacMan.x]==5) {
+
+                    world[pacMan.y][pacMan.x]=0;
+                    losePoint=150;
+                    displayLoseScore();
+                    setTimeout(displayScore, 500);
+                    
+                }
+                if (world[pacMan.y][pacMan.x]==6) {
+
+                    accessPacman.display="none";
+                    accessGameover.display="block";
+                    accessGameover.width=400+"px";
+                    accessGameover.height=70+"px";
+                    dead=true;
+                }
+
+            }
+            
+            if (e.keyCode==32&&dead==true) {
+
+                resetWorld();    
+            }
+            
+            movePacman();
+            displayWorld();      
+      
+        }
+
+        //------ End of onKeydown function--------
+
+        displayScore();
+
+          //-------------Some Functions-----------
+          function displayScore(){
+            document.getElementById("score").innerHTML="Score: " +score;
+            accessScore.fontSize=20+"px";
+            accessScore.color=" rgb(255,255,255)";
+            document.getElementById("losePoint").style.display="none";
+
+        }
+
+        function displayLoseScore(){
+            document.getElementById("losePoint").innerHTML= -losePoint;
+
+            accessScore.color=" rgb(255,0,0)";
+            accessScore.fontSize=25+"px";
+            document.getElementById("losePoint").style.display="inline-block";
+            score-=losePoint;
+        }
+
+        function movePacman() {
+            accessPacman.top=pacMan.y*50+"px";
+            accessPacman.left=pacMan.x*50+"px";
+        }
+        function resetWorld() {
+
+            dead=false; 
+            pacMan.y=1;
+            pacMan.x=1;
+            score =0;
+            displayScore();
+            accessPacman.display="block";
+            accessGameover.display="none";
+
+            world=[
+                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                [1,0,1,2,2,2,2,2,0,1,2,2,2,1,0,2,5,2,2,1],
+                [1,2,2,1,1,2,5,2,6,1,2,2,2,2,2,2,2,2,1,1],
+                [1,2,2,0,1,2,2,0,4,2,2,2,1,1,1,2,2,4,2,1],
+                [1,4,0,2,0,2,1,2,2,1,2,1,1,1,2,2,1,1,2,1],
+                [1,2,2,2,5,2,1,2,2,0,4,2,2,2,2,6,2,2,2,1],
+                [1,2,5,2,1,0,2,2,0,1,5,0,2,2,2,1,1,0,1,1],
+                [1,2,2,2,1,1,1,2,2,2,1,2,1,2,2,5,2,2,5,1],
+                [1,2,0,0,0,2,1,0,2,0,2,6,1,2,2,2,2,2,2,1],
+                [1,2,2,6,2,2,2,2,2,1,2,1,1,1,2,2,5,4,6,1],
+                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            ] 
+            
+        }
+
+        //-------------END------------------------
+        
+
+    </script>
+</body>
+</html> 

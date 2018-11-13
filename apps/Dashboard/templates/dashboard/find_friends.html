@@ -12,7 +12,7 @@
 {%block content%}
 
     
-    <div class="container findFriend mt-5 col-8">
+    <div class="container findFriend mt-5 col-9">
 
         <div class="shadow p-3">
             <legend>Respond to your {{friend_request.count}} Friend Requests</legend>
@@ -24,11 +24,13 @@
 
             {% for index in friend_request %}
                 <div class=" row">
-                    <a href="{%url 'dashboard:profile' user_id=index.id%}" class="col-8">
-                        <h6 >{{index.first_name}} {{index.last_name}}</h6>
-                    </a>
-
-                    <form action="{%url 'friends:create' user_id=index.id%}" method="post" class="confirmFriend">
+                    <div class="col-8">
+                        <img class="rounded-circle d-inline-block mr-1 mb-2" src="..{{index.profile.url}}" alt="Generic placeholder image" width="60" height="60">
+                        <a href="{%url 'dashboard:profile' user_id=index.id%}" class="col-7 text-dark">
+                            <h6 class="d-inline">{{index.first_name}} {{index.last_name}}</h6>
+                        </a>
+                    </div>
+                    <form action="{%url 'friends:create' user_id=index.id%}" method="post" class="confirmFriend col-4">
                         {% csrf_token %}
                         <input type="hidden" id="friend_user_id" name="friend_user_id" value="{{ index.id }}">
                         <input type="hidden" id="user_id" name="user_id" value="{{ request.session.user_id }}">
@@ -47,17 +49,20 @@
             <legend>People You May Know   <i class="fas fa-users ml-2"></i></legend>
             <hr>
             {% for index in potentialFriends  %}
-            <div class="row">
-                <h6 class="col-8 mb-0">{{index.first_name}} {{index.last_name}}</h6>
-                <a href="{%url 'dashboard:profile' user_id=index.id%}" class="btn btn-outline-success"> Profile</a>
+            <div class="">
+                <div class="col-9 d-inline-block">
+                    <img class="rounded-circle d-inline-block mr-3 mb-2" src="..{{index.profile.url}}" alt="Generic placeholder image" width="60" height="60">
+                  
+                    <a href="{%url 'dashboard:profile' user_id=index.id%}"><h6 class="d-inline mb-0 text-dark">{{index.first_name}} {{index.last_name}}</h6></a>
+                </div>
+                
+                <a href="{%url 'dashboard:profile' user_id=index.id%}" class="btn btn-outline-success d-inline"> Profile</a>
 
             </div>
             <hr>
             {% endfor %}
         </div>
     </div>
-
-
 
 
 

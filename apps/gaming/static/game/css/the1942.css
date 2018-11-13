@@ -1,0 +1,101 @@
+
+body{
+    background-color:black;
+}
+#container{
+    background: url("../images/1942Games/background_topview_1942.jpg");
+    width:1000px;
+    height:550px;
+ 
+}
+#hero{
+    background: url('../images/1942Games/1942.gif');
+    background-position: -85px -180px;
+    width:28px;
+    height:28px;
+    position:absolute;
+}
+.enemy1{
+    background: url('../images/1942Games/1942.gif');
+    background-position: -30px -10px;
+    width:28px;
+    height:28px;
+    position:absolute;
+}
+.enemy0{
+    background: url('../images/1942Games/1942.gif');
+    background-position: -60px -10px;
+    width:28px;
+    height:28px;
+    position:absolute;
+}
+.enemy2{
+    background: url('../images/1942Games/1942.gif');
+    background-position: -120px -5px;
+    width:28px;
+    height:28px;
+    position:absolute;
+}
+.enemy3{
+    background: url('../images/1942Games/1942.gif');
+    background-position: -40px -110px;
+    width:50px;
+    height:40px;
+    position:absolute;
+    transform: rotate(180deg);
+}
+.bullet{
+    background: url('../images/1942Games/1942.gif');
+    background-position: -185px -400px;
+    width:18px;
+    height:18px;
+    position:absolute;
+}
+#score{
+    position:absolute;
+    border:10px solid rgb(255, 217, 0);
+    top:20px;
+    left:500px;
+    background-color:rgba(255, 255, 255, 0.63);
+    padding:10px;
+    font-size:30px;
+    font-family: Arial;	
+    box-shadow: 3px 1px 3px rgb(255, 247, 177);
+}
+#scoreincrement{
+    position:absolute;
+    top:29px;
+    left:620px;
+    padding:10px;
+    width: 40px;
+    height: 50px;
+    font-size:30px;
+    font-family: Arial;	
+    text-align: center;
+    color: rgb(255, 215, 0);
+}
+.explosion{
+    background: url("../images/1942Games/explosion_1942.gif");
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 50px;
+    height: 50px;  
+
+}
+
+.backBtn{
+    text-align: center;
+    font-size: 25px;
+    box-shadow: 2px 3px 6px rgb(131, 131, 131);
+    margin-left: 20px;
+    width: 150px;
+    min-height: 30px;
+    background-color: rgb(189, 129, 0);
+    border-radius: 5px;
+    text-decoration: none;
+    color: rgb(233, 233, 233);
+    margin-top: 45px;
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+}

@@ -10,6 +10,9 @@ urlpatterns = [
     url(r'^find_friends/$', views.find_friends, name="find_friends"),
     url(r'^searchFriends/$', views.searchFriends, name="searchFriends"),
     url(r'^searchPostByName/$', views.searchPostByName, name="searchPostByName"),
+    url(r'^searchUsers/$', views.searchUsers, name="searchUsers"),
+    url(r'^FetchMyPost/$',views.FetchMyPost,name="FetchMyPost")
+
 
 
 

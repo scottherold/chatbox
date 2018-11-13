@@ -15,7 +15,7 @@
 
     <div class="container col-10 mt-5">
 
-        <div class="py-5 background text-white mb-3" style="background-image: url('{%static "dashboard/images/profileBG.jpg"%}');">
+        <div class="py-5 background text-white mb-3">
 
             <div class="text-left rightHeader d-inline-block">
                 <h2 class="ml-3 font-weight-light">{{user.user_name}}</h2>
@@ -62,7 +62,7 @@
 
         </div>
 
-        <section class="lowerSection col-11 ml-4 ">
+        <section class="lowerSection col-12 ml-2">
 
             <div class="leftsection">
                 <div class="bg-light shadow">
@@ -103,7 +103,7 @@
                     <h5 class="font-weight-light ml-3 "><i class="fas fa-users"></i> Friends</h5>
                     <hr>
                     {% ifequal friends.count 0%}
-                        <small class="ml-2">You have not friend yet</small>
+                        <small class="ml-2">No friends yet</small>
                     {% endifequal %}
 
                     {% for index in friends %}
@@ -118,7 +118,7 @@
                 </div>
             </div>
 
-            <div class="rightsection col-9 bg-light pt-4">
+            <div class="rightsection col-8 pt-4">
 
                 {% if messages %}
                     <ul class=" list-inline messages text-{{request.session.messageColor}}">
@@ -127,7 +127,14 @@
                         {% endfor %}
                     </ul>
                 {% endif %}
-        
+                {% ifequal user.id request.session.user_id %}
+                    <h6 class="font-weight-light mb-3">Your Posts</h6>
+                
+                {% else %}
+                    <h6 class="font-weight-light mb-3">{{user.user_name}} Posts</h6>
+                {% endifequal %}
+                <hr>
+                <div id="postContent"></div>
             </div>
 
 
@@ -248,6 +255,22 @@
             customText.innerHTML="No image Chosen yet !"
         }
     });
+    
+    $.ajax({
+        
+        method:"GET",
+        url:"{%url 'dashboard:FetchMyPost' %}",
+        data:{
+            user_id:"{{user.id}}"
+        },
+        success:function(response){
+            $("#postContent").html(response)
+            
+            PostBoxEffect();
+        }
+        
+    })
+
 </script>
 
 {%endblock content%}

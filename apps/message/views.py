@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,HttpResponse
 from django.contrib import messages
 from .models import Post,Comment,Reply
 # Create your views here.
@@ -31,8 +31,13 @@ def createComment(request,post_id):
         for error in errors:
             request.session['messageColor']="danger"
             messages.error(request, error)
-    
-    return redirect('dashboard:homePage')
+
+
+    if request.POST['location']=="profile":
+        return redirect("dashboard:profile", user_id=request.session['user_id'])
+    elif request.POST['location']=="homePage":
+        return redirect("dashboard:homePage")
+
 
 
 
@@ -44,8 +49,11 @@ def createReply(request,comment_id):
         for error in errors:
             request.session['messageColor']="danger"
             messages.error(request, error)
-    
-    return redirect('dashboard:homePage')
+
+    if request.POST['location']=="profile":
+        return redirect("dashboard:profile", user_id=request.session['user_id'])
+    elif request.POST['location']=="homePage":
+        return redirect("dashboard:homePage")
 
 
 
@@ -56,4 +64,8 @@ def delete(request,post_id):
         request.session['messageColor']="danger"
         messages.error(request, "Unable to delete your Post. Pease contact our nearby office for assistance")
 
-    return redirect('dashboard:homePage')
+    if request.POST['location']=="profile":
+        return redirect('dashboard:profile',user_id=request.session['user_id'])
+    elif request.POST['location']=="homePage":
+        return redirect('dashboard:homePage')
+

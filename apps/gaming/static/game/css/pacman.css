@@ -1,0 +1,133 @@
+*{
+    border: 0px;
+    line-height: 0px;
+}
+
+.row div{
+width: 50px;
+height: 50px;
+border: 1px solid black;
+display: inline-block;
+border: 0px;
+
+}
+.backBtn{
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 3px 6px rgb(131, 131, 131);
+    margin-left: 20px;
+    width: 200px;
+    min-height: 30px;
+    background-color: orange;
+    border-radius: 5px;
+}
+.backBtn a{
+    text-decoration: none;
+    color: white;
+}
+.backBtn h6{
+    padding-top:15px;
+}
+.brick{
+    background-color: rgb(80, 116, 214);
+    box-shadow: 1px 0px 5px white;
+   
+}
+.coin{
+    /* background: url("pacMan_Assets/coin.png"); */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.fire{
+    /* background: url("pacMan_Assets/fire_pacman.gif"); */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.star{
+    /* background: url("pacMan_Assets/star_pacman.png"); */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+body{
+    background-color: rgb(26, 26, 26);
+    margin: 0px;
+    
+}
+
+#pacman{
+    /* background: url("pacMan_Assets/pacman.gif"); */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    transform: scaleX(1);
+    transform: rotate(0deg);
+}
+#ghost1{
+    /* background: url("pacMan_Assets/ghost1_pacman.gif"); */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+}
+
+#score{
+    width: 130px;
+    height: 10px;
+    border: 3px dashed white;
+    margin-top: 20px;
+    margin-left: 20px;
+    text-align: center;
+    color: white;
+    padding:20px 10px;
+    font-size: 20px;
+    transition: 0.5s;
+    display: inline-block;
+    vertical-align: top;
+}
+#losePoint{
+    width: 30px;
+    height: 30px;
+    margin-top: 20px;
+    margin-left: 10px;
+    text-align: center;
+    color: red;
+    padding:20px 10px;
+    font-size: 32px;
+    transition: 0.5s;
+    display: inline-block;
+
+}
+#gameOverSign{
+    width:200px;
+    height: 20px;
+    background: linear-gradient(to bottom right, red, rgb(255, 153, 0));
+    display: block;
+    position: absolute;
+    top: 200px;
+    left: 250px;
+    padding: 20px;
+    text-align: center;
+    margin-left: 40px;
+    margin-top: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 23px;
+    border-radius: 5px;
+    box-shadow: 4px 2px 8px goldenrod;
+}
+#gameOverSign h4{
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 27px;
+    text-shadow: 2px 1px 1px rgb(160, 160, 160);
+}
+#gameOverSign h4+p{
+    margin-top: 20px;
+}

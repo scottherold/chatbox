@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'apps.gaming',
     'apps.Dashboard',
     'apps.users',
     'apps.message',

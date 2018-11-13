@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^likes/', include('apps.likes.urls', namespace="likes")),
     url(r'^pokes/', include('apps.pokes.urls', namespace="pokes")),
     url(r'^wall/', include('apps.message.urls', namespace="message")),
+    url(r'^gaming/', include('apps.gaming.urls', namespace="games")),
     url(r'^', include('apps.users.urls', namespace="users"))
 ]
